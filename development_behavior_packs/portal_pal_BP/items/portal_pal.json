@@ -1,0 +1,15 @@
+{
+	"format_version": "1.16.100",
+	"minecraft:item": {
+		"description": {
+			"identifier": "pp:portal_pal",
+			"category": "Items"
+		},
+		"components": {
+            "minecraft:max_stack_size": 1,
+            "minecraft:icon" : {
+                "texture": "pp:portal_pal"
+            }
+		}
+	}
+}

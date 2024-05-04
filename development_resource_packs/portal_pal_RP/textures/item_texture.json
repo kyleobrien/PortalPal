@@ -1,0 +1,9 @@
+{
+	"resource_pack_name": "PortalPal",
+	"texture_name": "atlas.items",
+	"texture_data": {
+        "pp:portal_pal": {
+            "textures": "textures/items/portal_pal"
+        }        
+    }
+}
