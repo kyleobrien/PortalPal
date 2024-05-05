@@ -1,5 +1,6 @@
-import { world, system } from '@minecraft/server';
+import { world, system, Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
+import { PlayerView } from './PlayerView';
 
 function playSound(player, success) {
     if (success) {
@@ -22,6 +23,10 @@ world.afterEvents.itemUse.subscribe(event => {
         let everyone = world.getAllPlayers();
         let otherPlayers = everyone.filter((player) => player.id != you.id);
         
+        let playerView = new PlayerView(you, otherPlayers);
+        playerView.open();
+
+        /*
         // Bail if there's no place to teleport to.
         if (otherPlayers.length == 0 && spawnPoint == undefined) {
             you.sendMessage('No other players in the game and no spawn point set. There\'s no place to teleport!');
@@ -29,7 +34,9 @@ world.afterEvents.itemUse.subscribe(event => {
 
             return;
         }
+        */
 
+        /*
         // Create the form and add buttons for all teleport targets.
         let form = new ActionFormData()
         .title('PortalPal')
@@ -64,13 +71,12 @@ world.afterEvents.itemUse.subscribe(event => {
                 }
             } else {
                 // They've selected the spawn point.
-                /*
-                let spawnPointLocation = new Vector3(
-                    spawnPoint.x,
-                    spawnPoint.y,
-                    spawnPoint.z
-                );
-                */
+                
+                //let spawnPointLocation = new Vector3(
+                //    spawnPoint.x,
+                //    spawnPoint.y,
+                //    spawnPoint.z
+                //);
 
                 let spawnPointLocation = { x: spawnPoint.x, y: spawnPoint.y, z: spawnPoint.z };
 
@@ -88,6 +94,7 @@ world.afterEvents.itemUse.subscribe(event => {
                 }
             }
         });
+        */
     }
 });
 

@@ -1,0 +1,16 @@
+{
+  "name": "com.mojang",
+  "version": "1.0.0",
+  "description": "A Minecraft Bedrock add-on for teleportation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@minecraft/server": "^1.10.0",
+    "@minecraft/server-ui": "^1.2.0-beta.1.21.0-preview.24"
+  }
+}
