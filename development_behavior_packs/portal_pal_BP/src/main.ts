@@ -1,6 +1,7 @@
 import { world, system, Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
-import { PlayerView } from './PlayerView';
+import { PlayerMenu } from './PlayerMenu';
+import { MenuManager } from 'MenuManager';
 
 function playSound(player, success) {
     if (success) {
@@ -16,6 +17,8 @@ function playSound(player, success) {
 
 world.afterEvents.itemUse.subscribe(event => {
     if (event.itemStack.typeId === "pp:portal_pal") {
+        let menuManager = new MenuManager();
+
         let you = event.source;
         let spawnPoint = you.getSpawnPoint();
 
@@ -23,8 +26,8 @@ world.afterEvents.itemUse.subscribe(event => {
         let everyone = world.getAllPlayers();
         let otherPlayers = everyone.filter((player) => player.id != you.id);
         
-        let playerView = new PlayerView(you, otherPlayers);
-        playerView.open();
+        let playerMenu = new PlayerMenu(menuManager, you, otherPlayers);
+        playerMenu.open();
 
         /*
         // Bail if there's no place to teleport to.
@@ -34,66 +37,6 @@ world.afterEvents.itemUse.subscribe(event => {
 
             return;
         }
-        */
-
-        /*
-        // Create the form and add buttons for all teleport targets.
-        let form = new ActionFormData()
-        .title('PortalPal')
-        .body('Open a portal and go to:');
-    
-        for (const player of otherPlayers) {
-            form.button(player.name, "textures/items/diamond_helmet");
-        }
-        
-        if (spawnPoint != undefined) {
-            form.button('Spawn Point', "textures/items/bed_purple");
-        }
-        
-        // Show the form and teleport them based on the response.
-        form.show(you).then((response) => {
-            if (response.canceled) {
-                // They've canceled. Do nothing.
-            } else if (response.selection < otherPlayers.length) {
-                // They've selected a player.
-                let targetPlayer = otherPlayers[response.selection];
-                let teleportOptions = {
-                    checkForBlocks: true,
-                    dimension: targetPlayer.dimension
-                };
-
-                if (you.tryTeleport(targetPlayer.location, teleportOptions)) {
-                    you.sendMessage(`Teleported to ${targetPlayer.name}...`);
-                    playSound(you, true);
-                } else {
-                    you.sendMessage('Failed to create a portal! Try again later.');
-                    playSound(you, false);
-                }
-            } else {
-                // They've selected the spawn point.
-                
-                //let spawnPointLocation = new Vector3(
-                //    spawnPoint.x,
-                //    spawnPoint.y,
-                //    spawnPoint.z
-                //);
-
-                let spawnPointLocation = { x: spawnPoint.x, y: spawnPoint.y, z: spawnPoint.z };
-
-                let teleportOptions = {
-                    checkForBlocks: true,
-                    dimension: spawnPoint.dimension
-                };
-
-                if (you.tryTeleport(spawnPointLocation, teleportOptions)) {
-                    you.sendMessage('Teleported to spawn point...');
-                    playSound(you, true);
-                } else {
-                    you.sendMessage('Failed to create a portal! Try again later.');
-                    playSound(you, false);
-                }
-            }
-        });
         */
     }
 });
