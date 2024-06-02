@@ -9,10 +9,12 @@ export class PlayerMenu {
     private readonly otherPlayers: Player[];
     
     constructor(menuManager: MenuManager, you: Player, otherPlayers: Player[]) {
-        this.menuManager = this.menuManager
+        this.menuManager = menuManager;
 
         this.you = you;
         this.otherPlayers = otherPlayers;
+
+        // TODO: Should I sort the players in some way? Maye alphaetically?
     }
 
     public open() {
@@ -30,7 +32,6 @@ export class PlayerMenu {
             if (response.canceled) {
                 // They've canceled. Do nothing.
             } else if (response.selection !== undefined) {
-                // They've selected a player.
                 if (response.selection == 0) {
                     this.menuManager.playerMenuSelected(this.you);
                 } else {
