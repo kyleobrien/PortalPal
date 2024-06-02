@@ -3,7 +3,7 @@ import { PortalMenu } from 'PortalMenu';
 
 export class MenuManager {
 
-    private readonly you: Player;
+    public readonly you: Player;
 
     constructor(you: Player) {
         this.you = you;
