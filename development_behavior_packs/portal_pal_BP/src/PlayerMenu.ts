@@ -13,8 +13,8 @@ export class PlayerMenu {
 
     public open() {
         let form = new ActionFormData().title('PortalPal');
+        
         form.button("Your Portals", "textures/items/diamond_helmet");
-
         for (const player of this.otherPlayers) {
             form.button(player.name, "textures/items/iron_helmet");
         }

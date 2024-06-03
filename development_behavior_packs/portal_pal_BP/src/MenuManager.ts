@@ -12,7 +12,7 @@ export class MenuManager {
     public playerMenuSelected(chosenPlayer: Player) {
         // TODO: Implement handling of player selection.
 
-        let portalMenu = new PortalMenu(this, this.you, chosenPlayer);
+        let portalMenu = new PortalMenu(this, chosenPlayer);
         portalMenu.open();
     }
 
@@ -95,5 +95,13 @@ export class MenuManager {
         }
 
         return posessiveName;
+    }
+
+    public isPlayerYou(player: Player): boolean {
+        if (player.id == this.you.id) {
+            return true;
+        }
+
+        return false;
     }
 }

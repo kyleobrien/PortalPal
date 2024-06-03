@@ -6,7 +6,7 @@ export class MenuManager {
     }
     playerMenuSelected(chosenPlayer) {
         // TODO: Implement handling of player selection.
-        let portalMenu = new PortalMenu(this, this.you, chosenPlayer);
+        let portalMenu = new PortalMenu(this, chosenPlayer);
         portalMenu.open();
     }
     teleportToCurrentLocation(targetPlayer) {
@@ -86,5 +86,11 @@ export class MenuManager {
             posessiveName += "'s";
         }
         return posessiveName;
+    }
+    isPlayerYou(player) {
+        if (player.id == this.you.id) {
+            return true;
+        }
+        return false;
     }
 }
