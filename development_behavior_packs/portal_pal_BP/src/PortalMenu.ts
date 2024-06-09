@@ -11,7 +11,7 @@ export class PortalMenu {
         this.chosenPlayer = chosenPlayer;
     }
 
-    public open() {
+    public open(): void {
         let form = new ActionFormData().title('Available Portals');
             
         form.button("Current Location", "textures/items/diamond_helmet");
@@ -36,7 +36,7 @@ export class PortalMenu {
                 } else if (response.selection == 1) {
                     this.menuManager.teleportToSpawn(this.chosenPlayer);
                 } else if (response.selection == buttonCount - 1 ) {
-                    // TODO: Adding a custom portal.
+                    this.menuManager.addNewPortal();
                 } else {
                     // TODO: Figure out how to handle custom portals.
                 }

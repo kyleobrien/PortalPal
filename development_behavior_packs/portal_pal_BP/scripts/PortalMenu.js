@@ -25,7 +25,7 @@ export class PortalMenu {
                     this.menuManager.teleportToSpawn(this.chosenPlayer);
                 }
                 else if (response.selection == buttonCount - 1) {
-                    // TODO: Adding a custom portal.
+                    this.menuManager.addNewPortal();
                 }
                 else {
                     // TODO: Figure out how to handle custom portals.

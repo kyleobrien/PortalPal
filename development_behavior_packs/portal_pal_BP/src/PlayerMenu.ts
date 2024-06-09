@@ -11,7 +11,7 @@ export class PlayerMenu {
         this.otherPlayers = otherPlayers;
     }
 
-    public open() {
+    public open(): void {
         let form = new ActionFormData().title('PortalPal');
         
         form.button("Your Portals", "textures/items/diamond_helmet");

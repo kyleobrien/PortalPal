@@ -1,5 +1,6 @@
 import { system, Player } from '@minecraft/server';
 import { PortalMenu } from 'PortalMenu';
+import { PropertiesMenu } from 'PropertiesMenu';
 
 export class MenuManager {
 
@@ -14,6 +15,11 @@ export class MenuManager {
 
         let portalMenu = new PortalMenu(this, chosenPlayer);
         portalMenu.open();
+    }
+
+    public addNewPortal() {
+        let propertiesMenu = new PropertiesMenu(this, false);
+        propertiesMenu.open();
     }
 
     public teleportToCurrentLocation(targetPlayer: Player) {
@@ -69,6 +75,10 @@ export class MenuManager {
             this.you.sendMessage(`ERROR: Failed to teleport to ${name} spawn point. It doesn't exist!`);
             this.playSound(this.you, false);
         }
+    }
+
+    public handlePropertiesSubmit(formValues, isExistingPortal) {
+
     }
 
     // TODO: This doesn't seem to work great. I want to play a sound in an area and everyone around should hear it.

@@ -1,5 +1,6 @@
 import { system } from '@minecraft/server';
 import { PortalMenu } from 'PortalMenu';
+import { PropertiesMenu } from 'PropertiesMenu';
 export class MenuManager {
     constructor(you) {
         this.you = you;
@@ -8,6 +9,10 @@ export class MenuManager {
         // TODO: Implement handling of player selection.
         let portalMenu = new PortalMenu(this, chosenPlayer);
         portalMenu.open();
+    }
+    addNewPortal() {
+        let propertiesMenu = new PropertiesMenu(this, false);
+        propertiesMenu.open();
     }
     teleportToCurrentLocation(targetPlayer) {
         let teleportOptions = {
