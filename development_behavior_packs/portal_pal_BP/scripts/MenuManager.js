@@ -1,6 +1,8 @@
 import { system } from '@minecraft/server';
-import { PortalMenu } from 'PortalMenu';
-import { PropertiesMenu } from 'PropertiesMenu';
+import { PortalMenu } from 'menus/PortalMenu';
+import { PortalService } from 'PortalService';
+import { PropertiesMenu } from 'menus/PropertiesMenu';
+import { Logger } from './Logger';
 export class MenuManager {
     constructor(you) {
         this.you = you;
@@ -67,6 +69,21 @@ export class MenuManager {
             this.you.sendMessage(`ERROR: Failed to teleport to ${name} spawn point. It doesn't exist!`);
             this.playSound(this.you, false);
         }
+    }
+    handlePropertiesSubmit(formValues, isExistingPortal) {
+        let portal = {
+            "name": formValues[0],
+            "color": formValues[1],
+            "private": formValues[2],
+            "location": this.you.location,
+            "dimension": this.you.dimension
+        };
+        // TODO: each component of the location can go to many decimals. Round these to save space?
+        let portalService = new PortalService();
+        portalService.addPortal(this.you, portal);
+        // TEST
+        let saved = portalService.fetchAllPortalsFor(this.you);
+        Logger.log(JSON.parse(saved.toString()));
     }
     // TODO: This doesn't seem to work great. I want to play a sound in an area and everyone around should hear it.
     playSound(player, success) {

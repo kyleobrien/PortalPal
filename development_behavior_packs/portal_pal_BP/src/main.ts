@@ -1,6 +1,11 @@
 import { world, system, Player } from '@minecraft/server';
-import { PlayerMenu } from './PlayerMenu';
-import { MenuManager } from 'MenuManager';
+import { PlayerMenu } from './menus/PlayerMenu';
+import { MenuManager } from './MenuManager';
+
+// DEBUG ONLY
+world.afterEvents.worldInitialize.subscribe(event => {
+    world.clearDynamicProperties();
+});
 
 world.afterEvents.itemUse.subscribe(event => {
     if (event.itemStack.typeId === "pp:portal_pal") {
