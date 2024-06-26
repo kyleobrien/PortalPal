@@ -1,7 +1,7 @@
 import { system, world, Player } from '@minecraft/server';
-import { PortalMenu } from 'menus/PortalMenu';
-import { PortalService } from 'PortalService';
-import { PropertiesMenu } from 'menus/PropertiesMenu';
+import { PortalMenu } from './menus/PortalMenu';
+import { PortalService } from './PortalService';
+import { PropertiesMenu } from './menus/PropertiesMenu';
 import { Logger } from './Logger';
 
 export class MenuManager {
@@ -97,8 +97,8 @@ export class MenuManager {
         }
 
         // TEST
-        //let saved = portalService.fetchAllPortalsFor(this.you);
-        //Logger.log(JSON.parse(saved.toString()));
+        let saved = portalService.fetchDataFor(this.you);
+        Logger.log(JSON.stringify(saved));
     }
 
     // TODO: This doesn't seem to work great. I want to play a sound in an area and everyone around should hear it.

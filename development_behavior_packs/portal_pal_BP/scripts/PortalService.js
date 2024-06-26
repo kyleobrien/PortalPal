@@ -9,17 +9,20 @@ export class PortalService {
         portal.location.z = Math.floor(portal.location.z);
     }
     addPortal(player, portal) {
-        this.slimPortalLocation(portal);
+        /*
         let propertyName = this.makePropertyName(player);
-        let writeData = { player: player.name,
-            portals: [] };
+        let writeData: Data = { player: player.name,
+                                portals: [] };
+
         try {
             let readData = world.getDynamicProperty(propertyName);
             if (readData !== undefined) {
                 writeData = JSON.parse(readData.toString());
             }
-        }
-        catch (error) { }
+        } catch (error) {}
+        */
+        let writeData = this.fetchDataFor(player);
+        this.slimPortalLocation(portal);
         writeData.portals.push(portal);
         // TODO: Probably need to resort the portals here instead of always tacking on to the end.
         // TODO: Need to figure out size and not saving more than 10KB.
@@ -27,20 +30,25 @@ export class PortalService {
         // Logger.log(size.toString());
         let isSuccess = false;
         try {
+            let propertyName = this.makePropertyName(player);
             world.setDynamicProperty(propertyName, JSON.stringify(writeData));
             isSuccess = true;
         }
         catch (error) { }
         return isSuccess;
     }
-    fetchAllPortalsFor(player) {
-        // TODO: there's no error handling here.
+    fetchDataFor(player) {
         let propertyName = this.makePropertyName(player);
-        let savedPortalsJSON = world.getDynamicProperty(propertyName);
-        if (savedPortalsJSON !== undefined) {
-            return JSON.parse(savedPortalsJSON.toString());
+        let defaultData = { player: player.name,
+            portals: [] };
+        try {
+            let readData = world.getDynamicProperty(propertyName);
+            if (readData !== undefined) {
+                defaultData = JSON.parse(readData.toString());
+            }
         }
-        return null;
+        catch (error) { }
+        return defaultData;
     }
 }
 /**

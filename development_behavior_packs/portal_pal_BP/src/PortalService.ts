@@ -29,19 +29,9 @@ export class PortalService {
 
     public addPortal(player: Player, portal: Portal): boolean {
         this.slimPortalLocation(portal);
-
-        let propertyName = this.makePropertyName(player);
-        let writeData: Data = { player: player.name,
-                                portals: [] };
-
-        try {
-            let readData = world.getDynamicProperty(propertyName);
-            if (readData !== undefined) {
-                writeData = JSON.parse(readData.toString());
-            }
-        } catch (error) {}
         
-        writeData.portals.push(portal);
+        let fetchedData = this.fetchDataFor(player);
+        fetchedData.portals.push(portal);
 
         // TODO: Probably need to resort the portals here instead of always tacking on to the end.
 
@@ -51,23 +41,26 @@ export class PortalService {
 
         let isSuccess = false;
         try {
-            world.setDynamicProperty(propertyName, JSON.stringify(writeData));
+            let propertyName = this.makePropertyName(player);
+            world.setDynamicProperty(propertyName, JSON.stringify(fetchedData));
             isSuccess = true;
         } catch (error) {}
         
         return isSuccess;
     }
 
-    public fetchAllPortalsFor(player: Player): any[] | null {
-        // TODO: there's no error handling here.
+    public fetchDataFor(player: Player): Data {
         let propertyName = this.makePropertyName(player);
-        let savedPortalsJSON = world.getDynamicProperty(propertyName);
+        let fetchedData: Data = { player: player.name, portals: [] };
 
-        if (savedPortalsJSON !== undefined) {
-            return JSON.parse(savedPortalsJSON.toString());
-        }
+        try {
+            let readData = world.getDynamicProperty(propertyName);
+            if (readData !== undefined) {
+                fetchedData = JSON.parse(readData.toString());
+            }
+        } catch (error) {}
 
-        return null;
+        return fetchedData;
     }
 }
 
