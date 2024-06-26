@@ -2,7 +2,7 @@ import { Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
 import { MenuManager } from '../MenuManager';
 
-export class PlayerMenu {
+export class MainMenu {
     private readonly menuManager: MenuManager;
     private readonly otherPlayers: Player[];
     
@@ -22,10 +22,10 @@ export class PlayerMenu {
         form.show(this.menuManager.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.menuManager.playerMenuSelected(this.menuManager.you);
+                    this.menuManager.mainMenuSelected(this.menuManager.you);
                 } else {
                     let index = response.selection - 1;
-                    this.menuManager.playerMenuSelected(this.otherPlayers[index]);
+                    this.menuManager.mainMenuSelected(this.otherPlayers[index]);
                 }
             }
         });

@@ -1,5 +1,5 @@
 import { world, system, Player } from '@minecraft/server';
-import { PlayerMenu } from './menus/PlayerMenu';
+import { MainMenu } from './menus/MainMenu';
 import { MenuManager } from './MenuManager';
 
 // DEBUG ONLY
@@ -17,7 +17,7 @@ world.afterEvents.itemUse.subscribe(event => {
 
         let menuManager = new MenuManager(you);
         
-        let playerMenu = new PlayerMenu(menuManager, otherPlayers);
-        playerMenu.open();
+        let mainMenu = new MainMenu(menuManager, otherPlayers);
+        mainMenu.open();
     }
 });

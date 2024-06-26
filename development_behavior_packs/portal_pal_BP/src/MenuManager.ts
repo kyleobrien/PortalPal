@@ -11,7 +11,7 @@ export class MenuManager {
         this.you = you;
     }
     
-    public playerMenuSelected(chosenPlayer: Player) {
+    public mainMenuSelected(chosenPlayer: Player) {
         // TODO: Implement handling of player selection.
 
         let portalMenu = new PortalMenu(this, chosenPlayer);
