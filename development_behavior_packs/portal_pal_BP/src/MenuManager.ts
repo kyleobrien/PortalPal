@@ -87,14 +87,18 @@ export class MenuManager {
             "dimension": this.you.dimension
         }
 
-        // TODO: each component of the location can go to many decimals. Round these to save space?
-
         let portalService = new PortalService();
-        portalService.addPortal(this.you, portal);
+        let success = portalService.addPortal(this.you, portal);
+        
+        if (success) {
+            this.you.sendMessage(`Added ${portal.name} to your saved portals.`);
+        } else {
+            this.you.sendMessage(`There was a prolem adding ${portal.name} to your saved portals.`);
+        }
 
         // TEST
-        let saved = portalService.fetchAllPortalsFor(this.you);
-        Logger.log(JSON.parse(saved.toString()));
+        //let saved = portalService.fetchAllPortalsFor(this.you);
+        //Logger.log(JSON.parse(saved.toString()));
     }
 
     // TODO: This doesn't seem to work great. I want to play a sound in an area and everyone around should hear it.

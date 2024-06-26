@@ -1,32 +1,37 @@
 import { world } from '@minecraft/server';
-import { Logger } from './Logger';
 export class PortalService {
     makePropertyName(player) {
         return `pp_${player.id}`;
     }
-    // TODO: figure out how to do the type on "portal" parameter
+    slimPortalLocation(portal) {
+        portal.location.x = Math.floor(portal.location.x);
+        portal.location.y = Math.floor(portal.location.y);
+        portal.location.z = Math.floor(portal.location.z);
+    }
     addPortal(player, portal) {
-        let savedString = JSON.stringify(portal);
-        Logger.log(savedString);
-        // TODO: Need to figure out size and not saving more than 10KB.
-        //const size = new TextEncoder().encode(JSON.stringify(savedString)).length
-        //Logger.log(size.toString());
+        this.slimPortalLocation(portal);
         let propertyName = this.makePropertyName(player);
-        Logger.log(propertyName);
-        let writeData = { player: player.name, portals: [] };
+        let writeData = { player: player.name,
+            portals: [] };
         try {
             let readData = world.getDynamicProperty(propertyName);
             if (readData !== undefined) {
                 writeData = JSON.parse(readData.toString());
             }
         }
-        catch (error) {
-        }
+        catch (error) { }
         writeData.portals.push(portal);
         // TODO: Probably need to resort the portals here instead of always tacking on to the end.
-        let test = JSON.stringify(writeData);
-        Logger.log(test);
-        world.setDynamicProperty(propertyName, test);
+        // TODO: Need to figure out size and not saving more than 10KB.
+        // const size = new TextEncoder().encode(JSON.stringify(writeData)).length;
+        // Logger.log(size.toString());
+        let isSuccess = false;
+        try {
+            world.setDynamicProperty(propertyName, JSON.stringify(writeData));
+            isSuccess = true;
+        }
+        catch (error) { }
+        return isSuccess;
     }
     fetchAllPortalsFor(player) {
         // TODO: there's no error handling here.

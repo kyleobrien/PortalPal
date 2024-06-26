@@ -5,15 +5,11 @@ interface Portal {
     name: string;
     color: number;
     private: boolean;
-    location: {   
-                    x: number;
-                    y: number;
-                    z: number;
-                }
-    dimension: {
-                    id: string;
-                 }
-    }
+    location: { x: number;
+                y: number;
+                z: number; }
+    dimension: { id: string; }
+}
 
 interface Data {
     player: string;
@@ -25,36 +21,41 @@ export class PortalService {
         return `pp_${player.id}`;
     }
 
-    // TODO: figure out how to do the type on "portal" parameter
-    public addPortal(player: Player, portal) {
-        let savedString = JSON.stringify(portal);
-        Logger.log(savedString);
-       
-        // TODO: Need to figure out size and not saving more than 10KB.
-        //const size = new TextEncoder().encode(JSON.stringify(savedString)).length
-        //Logger.log(size.toString());
+    private slimPortalLocation(portal: Portal) {
+        portal.location.x = Math.floor(portal.location.x);
+        portal.location.y = Math.floor(portal.location.y);
+        portal.location.z = Math.floor(portal.location.z);
+    }
+
+    public addPortal(player: Player, portal: Portal): boolean {
+        this.slimPortalLocation(portal);
 
         let propertyName = this.makePropertyName(player);
-        Logger.log(propertyName);
-
-        let writeData: Data = { player: player.name, portals: [] };
+        let writeData: Data = { player: player.name,
+                                portals: [] };
 
         try {
             let readData = world.getDynamicProperty(propertyName);
             if (readData !== undefined) {
                 writeData = JSON.parse(readData.toString());
             }
-        } catch (error) {
-            
-        }
+        } catch (error) {}
         
         writeData.portals.push(portal);
 
         // TODO: Probably need to resort the portals here instead of always tacking on to the end.
+
+        // TODO: Need to figure out size and not saving more than 10KB.
+        // const size = new TextEncoder().encode(JSON.stringify(writeData)).length;
+        // Logger.log(size.toString());
+
+        let isSuccess = false;
+        try {
+            world.setDynamicProperty(propertyName, JSON.stringify(writeData));
+            isSuccess = true;
+        } catch (error) {}
         
-        let test = JSON.stringify(writeData);
-        Logger.log(test);
-        world.setDynamicProperty(propertyName, test);
+        return isSuccess;
     }
 
     public fetchAllPortalsFor(player: Player): any[] | null {
