@@ -7,12 +7,23 @@ import { Logger } from './Logger';
 export class MenuManager {
     public readonly you: Player;
 
+    private readonly portalService: PortalService;
+
     constructor(you: Player) {
         this.you = you;
+        this.portalService = new PortalService();
     }
     
     public mainMenuSelected(chosenPlayer: Player) {
         // TODO: Implement handling of player selection.
+
+        let savedData;
+
+        if (chosenPlayer.id === this.you.id) {
+            savedData = this.portalService.fetchDataFor(chosenPlayer);
+        } else {
+            savedData = this.portalService.fetchDataFor(chosenPlayer, true);
+        }
 
         let portalMenu = new PortalMenu(this, chosenPlayer);
         portalMenu.open();
@@ -87,8 +98,7 @@ export class MenuManager {
             "dimension": this.you.dimension
         }
 
-        let portalService = new PortalService();
-        let success = portalService.addPortal(this.you, portal);
+        let success = this.portalService.addPortal(this.you, portal);
         
         if (success) {
             this.you.sendMessage(`Added ${portal.name} to your saved portals.`);
@@ -97,7 +107,7 @@ export class MenuManager {
         }
 
         // TEST
-        let saved = portalService.fetchDataFor(this.you);
+        let saved = this.portalService.fetchDataFor(this.you);
         Logger.log(JSON.stringify(saved));
     }
 

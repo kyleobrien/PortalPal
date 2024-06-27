@@ -6,14 +6,14 @@ export class PortalMenu {
     private readonly menuManager: MenuManager;
     private readonly chosenPlayer: Player;
     
-    constructor(menuManager: MenuManager, chosenPlayer: Player) {
+    constructor(menuManager: MenuManager, chosenPlayer: Player, savedData) {
         this.menuManager = menuManager;
         this.chosenPlayer = chosenPlayer;
     }
 
     public open(): void {
         let form = new ActionFormData().title('Available Portals');
-            
+        
         form.button("Current Location", "textures/items/diamond_helmet");
         form.button("Spawn Point", "textures/items/diamond_helmet");
 
@@ -22,6 +22,8 @@ export class PortalMenu {
         // TODO: Need to get all the saved portals and add buttons.
         // If the player is not you, need to only show the ones that are not private.
         // Increment the button count for each custom portal.
+
+
 
         if (this.menuManager.isPlayerYou(this.chosenPlayer)) {
             form.button("Add Portal", "textures/items/diamond_helmet");

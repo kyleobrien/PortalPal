@@ -1,7 +1,7 @@
 import { world, Player } from '@minecraft/server';
 import { Logger } from './Logger';
 
-interface Portal {
+export interface Portal {
     name: string;
     color: number;
     private: boolean;
@@ -11,7 +11,7 @@ interface Portal {
     dimension: { id: string; }
 }
 
-interface Data {
+export interface SavedData {
     player: string;
     portals: Portal[];
 }
@@ -49,9 +49,9 @@ export class PortalService {
         return isSuccess;
     }
 
-    public fetchDataFor(player: Player): Data {
+    public fetchDataFor(player: Player, excludePrivate: boolean = false): SavedData {
         let propertyName = this.makePropertyName(player);
-        let fetchedData: Data = { player: player.name, portals: [] };
+        let fetchedData: SavedData = { player: player.name, portals: [] };
 
         try {
             let readData = world.getDynamicProperty(propertyName);
@@ -59,6 +59,14 @@ export class PortalService {
                 fetchedData = JSON.parse(readData.toString());
             }
         } catch (error) {}
+
+        if (excludePrivate) {
+            let publicPortals = fetchedData.portals.filter((portal) => {
+                return portal.private === false;
+            });
+
+            fetchedData.portals = publicPortals;
+        }
 
         return fetchedData;
     }
