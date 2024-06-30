@@ -1,17 +1,27 @@
-import { system, world, Player } from '@minecraft/server';
+import { system, world, Player, ItemUseAfterEvent } from '@minecraft/server';
+import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
 import { PortalService } from './PortalService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { Logger } from './Logger';
 
 export class MenuManager {
-    public readonly you: Player;
-
+    public you: Player;
     private readonly portalService: PortalService;
 
-    constructor(you: Player) {
-        this.you = you;
+    constructor() {
         this.portalService = new PortalService();
+    }
+
+    public start(event: ItemUseAfterEvent) {
+        this.you = event.source;
+        let everyone = world.getAllPlayers();
+        let otherPlayers = everyone.filter((player) => player.id != this.you.id);
+        
+        otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
+
+        let mainMenu = new MainMenu(this, otherPlayers);
+        mainMenu.open();
     }
     
     public mainMenuSelected(chosenPlayer: Player) {
@@ -20,12 +30,12 @@ export class MenuManager {
         let savedData;
 
         if (chosenPlayer.id === this.you.id) {
-            savedData = this.portalService.fetchDataFor(chosenPlayer);
+            savedData = this.portalService.fetchDataFor(chosenPlayer, false);
         } else {
             savedData = this.portalService.fetchDataFor(chosenPlayer, true);
         }
 
-        let portalMenu = new PortalMenu(this, chosenPlayer);
+        let portalMenu = new PortalMenu(this, chosenPlayer, savedData);
         portalMenu.open();
     }
 

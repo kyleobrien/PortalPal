@@ -1,14 +1,17 @@
 import { Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
 import { MenuManager } from '../MenuManager';
+import { Portal, SavedData } from '../PortalService';
 
 export class PortalMenu {
     private readonly menuManager: MenuManager;
     private readonly chosenPlayer: Player;
+    private readonly savedData: SavedData;
     
-    constructor(menuManager: MenuManager, chosenPlayer: Player, savedData) {
+    constructor(menuManager: MenuManager, chosenPlayer: Player, savedData: SavedData) {
         this.menuManager = menuManager;
         this.chosenPlayer = chosenPlayer;
+        this.savedData = savedData;
     }
 
     public open(): void {
@@ -23,13 +26,15 @@ export class PortalMenu {
         // If the player is not you, need to only show the ones that are not private.
         // Increment the button count for each custom portal.
 
-
+        for (const portal of this.savedData.portals) {
+            form.button(portal.name, "textures/items/diamond_helmet");
+            buttonCount += 1;
+        }
 
         if (this.menuManager.isPlayerYou(this.chosenPlayer)) {
             form.button("Add Portal", "textures/items/diamond_helmet");
+            buttonCount += 1;
         }
-
-        buttonCount += 1;
 
         form.show(this.menuManager.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {

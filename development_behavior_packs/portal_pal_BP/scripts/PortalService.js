@@ -9,21 +9,9 @@ export class PortalService {
         portal.location.z = Math.floor(portal.location.z);
     }
     addPortal(player, portal) {
-        /*
-        let propertyName = this.makePropertyName(player);
-        let writeData: Data = { player: player.name,
-                                portals: [] };
-
-        try {
-            let readData = world.getDynamicProperty(propertyName);
-            if (readData !== undefined) {
-                writeData = JSON.parse(readData.toString());
-            }
-        } catch (error) {}
-        */
-        let writeData = this.fetchDataFor(player);
         this.slimPortalLocation(portal);
-        writeData.portals.push(portal);
+        let fetchedData = this.fetchDataFor(player);
+        fetchedData.portals.push(portal);
         // TODO: Probably need to resort the portals here instead of always tacking on to the end.
         // TODO: Need to figure out size and not saving more than 10KB.
         // const size = new TextEncoder().encode(JSON.stringify(writeData)).length;
@@ -31,24 +19,29 @@ export class PortalService {
         let isSuccess = false;
         try {
             let propertyName = this.makePropertyName(player);
-            world.setDynamicProperty(propertyName, JSON.stringify(writeData));
+            world.setDynamicProperty(propertyName, JSON.stringify(fetchedData));
             isSuccess = true;
         }
         catch (error) { }
         return isSuccess;
     }
-    fetchDataFor(player) {
+    fetchDataFor(player, excludePrivate = false) {
         let propertyName = this.makePropertyName(player);
-        let defaultData = { player: player.name,
-            portals: [] };
+        let fetchedData = { player: player.name, portals: [] };
         try {
             let readData = world.getDynamicProperty(propertyName);
             if (readData !== undefined) {
-                defaultData = JSON.parse(readData.toString());
+                fetchedData = JSON.parse(readData.toString());
             }
         }
         catch (error) { }
-        return defaultData;
+        if (excludePrivate) {
+            let publicPortals = fetchedData.portals.filter((portal) => {
+                return portal.private === false;
+            });
+            fetchedData.portals = publicPortals;
+        }
+        return fetchedData;
     }
 }
 /**

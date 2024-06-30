@@ -1,15 +1,31 @@
-import { system } from '@minecraft/server';
+import { system, world } from '@minecraft/server';
+import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
 import { PortalService } from './PortalService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { Logger } from './Logger';
 export class MenuManager {
-    constructor(you) {
-        this.you = you;
+    constructor() {
+        this.portalService = new PortalService();
+    }
+    start(event) {
+        this.you = event.source;
+        let everyone = world.getAllPlayers();
+        let otherPlayers = everyone.filter((player) => player.id != this.you.id);
+        otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
+        let mainMenu = new MainMenu(this, otherPlayers);
+        mainMenu.open();
     }
     mainMenuSelected(chosenPlayer) {
         // TODO: Implement handling of player selection.
-        let portalMenu = new PortalMenu(this, chosenPlayer);
+        let savedData;
+        if (chosenPlayer.id === this.you.id) {
+            savedData = this.portalService.fetchDataFor(chosenPlayer, false);
+        }
+        else {
+            savedData = this.portalService.fetchDataFor(chosenPlayer, true);
+        }
+        let portalMenu = new PortalMenu(this, chosenPlayer, savedData);
         portalMenu.open();
     }
     addNewPortal() {
@@ -78,8 +94,7 @@ export class MenuManager {
             "location": this.you.location,
             "dimension": this.you.dimension
         };
-        let portalService = new PortalService();
-        let success = portalService.addPortal(this.you, portal);
+        let success = this.portalService.addPortal(this.you, portal);
         if (success) {
             this.you.sendMessage(`Added ${portal.name} to your saved portals.`);
         }
@@ -87,7 +102,7 @@ export class MenuManager {
             this.you.sendMessage(`There was a prolem adding ${portal.name} to your saved portals.`);
         }
         // TEST
-        let saved = portalService.fetchDataFor(this.you);
+        let saved = this.portalService.fetchDataFor(this.you);
         Logger.log(JSON.stringify(saved));
     }
     // TODO: This doesn't seem to work great. I want to play a sound in an area and everyone around should hear it.
