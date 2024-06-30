@@ -1,12 +1,16 @@
 import { system, world, Player, ItemUseAfterEvent } from '@minecraft/server';
+import { ActionMenu } from './menus/ActionMenu';
 import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
-import { PortalService } from './PortalService';
+import { PortalService, SavedData } from './PortalService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { Logger } from './Logger';
 
 export class MenuManager {
+    // TODO: Can I make this private?
     public you: Player;
+    private otherPlayers: Player[];
+
     private readonly portalService: PortalService;
 
     constructor() {
@@ -15,21 +19,23 @@ export class MenuManager {
 
     public start(event: ItemUseAfterEvent) {
         this.you = event.source;
-        let everyone = world.getAllPlayers();
-        let otherPlayers = everyone.filter((player) => player.id != this.you.id);
-        
-        otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
 
-        let mainMenu = new MainMenu(this, otherPlayers);
+        let mainMenu = new MainMenu(this,
+                                    this.you,
+                                    this.findAllOtherPlayersBut(this.you));
         mainMenu.open();
     }
+
+    /**************************************
+     ******* Handle Menu Selections ******* 
+     **************************************/
+
+    // MAIN MENU
     
     public mainMenuSelected(chosenPlayer: Player) {
-        // TODO: Implement handling of player selection.
-
         let savedData;
 
-        if (chosenPlayer.id === this.you.id) {
+        if (this.isPlayerYou(chosenPlayer)) {
             savedData = this.portalService.fetchDataFor(chosenPlayer, false);
         } else {
             savedData = this.portalService.fetchDataFor(chosenPlayer, true);
@@ -39,12 +45,25 @@ export class MenuManager {
         portalMenu.open();
     }
 
-    public addNewPortal() {
+    // PORTAL MENU
+
+    public portalMenuSelected(forPlayer: Player, index: number, savedData: SavedData) {
+        if (this.isPlayerYou(forPlayer)) {
+            let actionMenu = new ActionMenu(this, this.you);
+            actionMenu.open();
+
+        } else {
+            // warp to that point
+
+        }
+    }
+
+    public portalMenuAddNewPortal() {
         let propertiesMenu = new PropertiesMenu(this, false);
         propertiesMenu.open();
     }
 
-    public teleportToCurrentLocation(targetPlayer: Player) {
+    public portalMenuTeleportToCurrentLocation(targetPlayer: Player) {
         let teleportOptions = {
             checkForBlocks: true,
             dimension: targetPlayer.dimension
@@ -65,7 +84,7 @@ export class MenuManager {
         }
     }
 
-    public teleportToSpawn(targetPlayer: Player) {
+    public portalMenuTeleportToSpawn(targetPlayer: Player) {
         let spawnPoint = targetPlayer.getSpawnPoint();
 
         if (spawnPoint != undefined) {
@@ -153,5 +172,14 @@ export class MenuManager {
         }
 
         return false;
+    }
+
+    public findAllOtherPlayersBut(you: Player): Player[] {
+        let everyone = world.getAllPlayers();
+        let otherPlayers = everyone.filter((player) => player.id != you.id);
+        
+        otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
+
+        return otherPlayers;
     }
 }

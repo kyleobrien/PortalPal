@@ -4,25 +4,29 @@ import { MenuManager } from '../MenuManager';
 
 export class MainMenu {
     private readonly menuManager: MenuManager;
+    private readonly you: Player;
     private readonly otherPlayers: Player[];
     
-    constructor(menuManager: MenuManager, otherPlayers: Player[]) {
+    constructor(menuManager: MenuManager, you: Player, otherPlayers: Player[]) {
         this.menuManager = menuManager;
+        this.you = you;
         this.otherPlayers = otherPlayers;
     }
 
     public open(): void {
         let form = new ActionFormData().title('PortalPal');
+
+        // TODO: figure out how to show icons for each player
         
         form.button("Your Portals", "textures/items/diamond_helmet");
         for (const player of this.otherPlayers) {
             form.button(player.name, "textures/items/iron_helmet");
         }
 
-        form.show(this.menuManager.you).then((response: ActionFormResponse) => {
+        form.show(this.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.menuManager.mainMenuSelected(this.menuManager.you);
+                    this.menuManager.mainMenuSelected(this.you);
                 } else {
                     let index = response.selection - 1;
                     this.menuManager.mainMenuSelected(this.otherPlayers[index]);

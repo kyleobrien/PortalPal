@@ -10,16 +10,16 @@ export class MenuManager {
     }
     start(event) {
         this.you = event.source;
-        let everyone = world.getAllPlayers();
-        let otherPlayers = everyone.filter((player) => player.id != this.you.id);
-        otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
-        let mainMenu = new MainMenu(this, otherPlayers);
+        let mainMenu = new MainMenu(this, this.you, this.findAllOtherPlayersBut(this.you));
         mainMenu.open();
     }
+    /**************************************
+     ******* Handle Menu Selections *******
+     **************************************/
+    // MAIN MENU
     mainMenuSelected(chosenPlayer) {
-        // TODO: Implement handling of player selection.
         let savedData;
-        if (chosenPlayer.id === this.you.id) {
+        if (this.isPlayerYou(chosenPlayer)) {
             savedData = this.portalService.fetchDataFor(chosenPlayer, false);
         }
         else {
@@ -28,11 +28,12 @@ export class MenuManager {
         let portalMenu = new PortalMenu(this, chosenPlayer, savedData);
         portalMenu.open();
     }
-    addNewPortal() {
+    // PORTAL MENU
+    portalMenuAddNewPortal() {
         let propertiesMenu = new PropertiesMenu(this, false);
         propertiesMenu.open();
     }
-    teleportToCurrentLocation(targetPlayer) {
+    portalMenuTeleportToCurrentLocation(targetPlayer) {
         let teleportOptions = {
             checkForBlocks: true,
             dimension: targetPlayer.dimension
@@ -53,7 +54,7 @@ export class MenuManager {
             }
         }
     }
-    teleportToSpawn(targetPlayer) {
+    portalMenuTeleportToSpawn(targetPlayer) {
         let spawnPoint = targetPlayer.getSpawnPoint();
         if (spawnPoint != undefined) {
             let spawnPointLocation = {
@@ -134,5 +135,11 @@ export class MenuManager {
             return true;
         }
         return false;
+    }
+    findAllOtherPlayersBut(you) {
+        let everyone = world.getAllPlayers();
+        let otherPlayers = everyone.filter((player) => player.id != you.id);
+        otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
+        return otherPlayers;
     }
 }

@@ -1,7 +1,8 @@
 import { ActionFormData } from '@minecraft/server-ui';
 export class MainMenu {
-    constructor(menuManager, otherPlayers) {
+    constructor(menuManager, you, otherPlayers) {
         this.menuManager = menuManager;
+        this.you = you;
         this.otherPlayers = otherPlayers;
     }
     open() {
@@ -10,10 +11,10 @@ export class MainMenu {
         for (const player of this.otherPlayers) {
             form.button(player.name, "textures/items/iron_helmet");
         }
-        form.show(this.menuManager.you).then((response) => {
+        form.show(this.you).then((response) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.menuManager.mainMenuSelected(this.menuManager.you);
+                    this.menuManager.mainMenuSelected(this.you);
                 }
                 else {
                     let index = response.selection - 1;

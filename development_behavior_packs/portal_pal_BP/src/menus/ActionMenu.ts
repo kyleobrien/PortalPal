@@ -13,8 +13,6 @@ export class ActionMenu {
 
     public open() {
         let form = new ActionFormData().title('Available Portals');
-    
-        // TODO: Need to decide on an icon for each type of action.
         
         form.button("Go!", "textures/items/diamond_helmet");
         form.button("Edit", "textures/items/diamond_helmet");
