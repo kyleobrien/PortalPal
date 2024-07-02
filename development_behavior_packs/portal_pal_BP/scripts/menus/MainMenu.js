@@ -7,6 +7,7 @@ export class MainMenu {
     }
     open() {
         let form = new ActionFormData().title('PortalPal');
+        // TODO: figure out how to show icons for each player
         form.button("Your Portals", "textures/items/diamond_helmet");
         for (const player of this.otherPlayers) {
             form.button(player.name, "textures/items/iron_helmet");

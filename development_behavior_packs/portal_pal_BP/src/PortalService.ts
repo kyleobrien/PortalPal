@@ -2,13 +2,14 @@ import { world, Player } from '@minecraft/server';
 import { Logger } from './Logger';
 
 export interface Portal {
+    id: string;
     name: string;
     color: number;
     private: boolean;
     location: { x: number;
                 y: number;
                 z: number; }
-    dimension: { id: string; }
+    dimension: string;
 }
 
 export interface SavedData {
@@ -17,18 +18,9 @@ export interface SavedData {
 }
 
 export class PortalService {
-    private makePropertyName(player: Player): string {
-        return `pp_${player.id}`;
-    }
-
-    private slimPortalLocation(portal: Portal) {
-        portal.location.x = Math.floor(portal.location.x);
-        portal.location.y = Math.floor(portal.location.y);
-        portal.location.z = Math.floor(portal.location.z);
-    }
-
     public addPortal(player: Player, portal: Portal): boolean {
         this.slimPortalLocation(portal);
+        portal.id = this.generateUniqueID();
         
         let fetchedData = this.fetchDataFor(player);
         fetchedData.portals.push(portal);
@@ -69,6 +61,23 @@ export class PortalService {
         }
 
         return fetchedData;
+    }
+
+    private makePropertyName(player: Player): string {
+        return `pp_${player.id}`;
+    }
+
+    private generateUniqueID(): string {
+        // This is a hack since I don't have access to GUIDs,
+        // so I'm going with a good enough, straightforward solution.
+        // These should be unique across a single player's portals, which is sufficient.
+        return new Date().getTime().toString();
+    }
+
+    private slimPortalLocation(portal: Portal) {
+        portal.location.x = Math.floor(portal.location.x);
+        portal.location.y = Math.floor(portal.location.y);
+        portal.location.z = Math.floor(portal.location.z);
     }
 }
 

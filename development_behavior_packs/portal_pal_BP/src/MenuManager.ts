@@ -2,9 +2,10 @@ import { system, world, Player, ItemUseAfterEvent } from '@minecraft/server';
 import { ActionMenu } from './menus/ActionMenu';
 import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
-import { PortalService, SavedData } from './PortalService';
+import { PortalService, Portal } from './PortalService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { Logger } from './Logger';
+import { WorldActor } from './WorldActor';
 
 export class MenuManager {
     // TODO: Can I make this private?
@@ -12,14 +13,16 @@ export class MenuManager {
     private otherPlayers: Player[];
 
     private readonly portalService: PortalService;
+    private readonly worldActor: WorldActor;
 
-    constructor() {
-        this.portalService = new PortalService();
-    }
-
-    public start(event: ItemUseAfterEvent) {
+    constructor(event: ItemUseAfterEvent) {
         this.you = event.source;
 
+        this.portalService = new PortalService();
+        this.worldActor = new WorldActor(this.you);
+    }
+
+    public start() {
         let mainMenu = new MainMenu(this,
                                     this.you,
                                     this.findAllOtherPlayersBut(this.you));
@@ -27,7 +30,7 @@ export class MenuManager {
     }
 
     /**************************************
-     ******* Handle Menu Selections ******* 
+     ******* Handle Menu Selections *******
      **************************************/
 
     // MAIN MENU
@@ -47,14 +50,24 @@ export class MenuManager {
 
     // PORTAL MENU
 
-    public portalMenuSelected(forPlayer: Player, index: number, savedData: SavedData) {
+    public portalMenuTeleportToCurrentLocation(targetPlayer: Player) {
+        this.worldActor.teleportToPlayerLocation(targetPlayer);
+    }
+
+    public portalMenuTeleportToSpawn(targetPlayer: Player) {
+        this.worldActor.teleportToPlayerSpawn(targetPlayer);
+    }
+
+    // REFACTOR BELOW!
+
+    public portalMenuSelected(forPlayer: Player, portal: Portal) {
         if (this.isPlayerYou(forPlayer)) {
+            // TODO: figure this out
             let actionMenu = new ActionMenu(this, this.you);
             actionMenu.open();
 
         } else {
-            // warp to that point
-
+            this.worldActor.teleportToPortal(portal);
         }
     }
 
@@ -63,68 +76,14 @@ export class MenuManager {
         propertiesMenu.open();
     }
 
-    public portalMenuTeleportToCurrentLocation(targetPlayer: Player) {
-        let teleportOptions = {
-            checkForBlocks: true,
-            dimension: targetPlayer.dimension
-        };
-
-        if (targetPlayer.id == this.you.id) {
-            this.you.sendMessage("Can't teleport to yourself. You're already there!");
-            this.playSound(this.you, false);
-        } else {
-            let name = this.possessiveName(targetPlayer.name);
-            if (this.you.tryTeleport(targetPlayer.location, teleportOptions)) {
-                this.you.sendMessage(`Teleported to ${name} current location...`);
-                this.playSound(this.you, true);
-            } else {
-                this.you.sendMessage(`ERROR: Failed to teleport to ${name} current location!`);
-                this.playSound(this.you, false);
-            }
-        }
-    }
-
-    public portalMenuTeleportToSpawn(targetPlayer: Player) {
-        let spawnPoint = targetPlayer.getSpawnPoint();
-
-        if (spawnPoint != undefined) {
-            let spawnPointLocation = {
-                x: spawnPoint.x,
-                y: spawnPoint.y,
-                z: spawnPoint.z
-            };
-
-            let teleportOptions = {
-                checkForBlocks: true,
-                dimension: spawnPoint.dimension
-            };
-
-            if (this.you.tryTeleport(spawnPointLocation, teleportOptions)) {
-                let name: string;
-                if (targetPlayer.id == this.you.id) {
-                    name = "your";
-                } else {
-                    name = this.possessiveName(targetPlayer.name);
-                }
-                this.you.sendMessage(`Teleported to ${name} spawn point...`);
-                this.playSound(this.you, true);
-            } else {
-                this.you.sendMessage(`ERROR: Failed to teleport to ${name} spawn point!`);
-                this.playSound(this.you, false);
-            }
-        } else {
-            this.you.sendMessage(`ERROR: Failed to teleport to ${name} spawn point. It doesn't exist!`);
-            this.playSound(this.you, false);
-        }
-    }
-
     public handlePropertiesSubmit(formValues, isExistingPortal) {
         let portal = {
+            "id": "",
             "name": formValues[0],
             "color": formValues[1],
             "private": formValues[2],
             "location": this.you.location,
-            "dimension": this.you.dimension
+            "dimension": this.you.dimension.id.split(":")[1]
         }
 
         let success = this.portalService.addPortal(this.you, portal);
@@ -138,32 +97,6 @@ export class MenuManager {
         // TEST
         let saved = this.portalService.fetchDataFor(this.you);
         Logger.log(JSON.stringify(saved));
-    }
-
-    // TODO: This doesn't seem to work great. I want to play a sound in an area and everyone around should hear it.
-    public playSound(player, success) {
-        if (success) {
-            system.runTimeout(() => {
-                player.playSound("portal_pal.teleport");
-            }, 5);
-        } else {
-            system.runTimeout(() => {
-                player.playSound("portal_pal.failure");
-            }, 5);
-        }
-    }
-
-    private possessiveName(name: string) {
-        let posessiveName = name;
-        let lastCharacter = name.charAt(name.length - 1);
-
-        if (lastCharacter == "s") {
-            posessiveName += "'";
-        } else {
-            posessiveName += "'s";
-        }
-
-        return posessiveName;
     }
 
     public isPlayerYou(player: Player): boolean {

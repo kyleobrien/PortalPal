@@ -7,6 +7,9 @@ export class PortalMenu {
     }
     open() {
         let form = new ActionFormData().title('Available Portals');
+        // TODO: need to figure out all the button icons.
+        // FIXME: if we ever change to show players who are not logged in,
+        //        then we need to conditionally add these buttons.
         form.button("Current Location", "textures/items/diamond_helmet");
         form.button("Spawn Point", "textures/items/diamond_helmet");
         let buttonCount = 2;
@@ -30,7 +33,10 @@ export class PortalMenu {
                     this.menuManager.portalMenuAddNewPortal();
                 }
                 else {
-                    // TODO: Figure out how to handle custom portals.
+                    // FIXME: if we ever change to show players who are not logged in,
+                    //        then we can't always sutract by 2.
+                    let portal = this.savedData.portals[response.selection - 2];
+                    this.menuManager.portalMenuSelected(this.chosenPlayer, portal);
                 }
             }
         });

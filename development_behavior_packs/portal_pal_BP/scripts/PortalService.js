@@ -1,15 +1,8 @@
 import { world } from '@minecraft/server';
 export class PortalService {
-    makePropertyName(player) {
-        return `pp_${player.id}`;
-    }
-    slimPortalLocation(portal) {
-        portal.location.x = Math.floor(portal.location.x);
-        portal.location.y = Math.floor(portal.location.y);
-        portal.location.z = Math.floor(portal.location.z);
-    }
     addPortal(player, portal) {
         this.slimPortalLocation(portal);
+        portal.id = this.generateUniqueID();
         let fetchedData = this.fetchDataFor(player);
         fetchedData.portals.push(portal);
         // TODO: Probably need to resort the portals here instead of always tacking on to the end.
@@ -42,6 +35,20 @@ export class PortalService {
             fetchedData.portals = publicPortals;
         }
         return fetchedData;
+    }
+    makePropertyName(player) {
+        return `pp_${player.id}`;
+    }
+    generateUniqueID() {
+        // This is a hack since I don't have access to GUIDs,
+        // so I'm going with a good enough, straightforward solution.
+        // These should be unique across a single player's portals, which is sufficient.
+        return new Date().getTime().toString();
+    }
+    slimPortalLocation(portal) {
+        portal.location.x = Math.floor(portal.location.x);
+        portal.location.y = Math.floor(portal.location.y);
+        portal.location.z = Math.floor(portal.location.z);
     }
 }
 /**
