@@ -1,6 +1,6 @@
 import { Player } from '@minecraft/server';
 import { ModalFormData, ModalFormResponse } from '@minecraft/server-ui';
-import { MenuManager } from 'MenuManager';
+import { MenuManager } from '../MenuManager';
 
 export class PropertiesMenu {
     private readonly menuManager: MenuManager;

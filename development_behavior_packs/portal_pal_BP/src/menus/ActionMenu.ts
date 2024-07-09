@@ -1,14 +1,17 @@
 import { Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
 import { MenuManager } from '../MenuManager';
+import { Portal } from '../PortalService';
 
 export class ActionMenu {
     private readonly menuManager: MenuManager;
     private readonly you: Player;
+    private readonly portal: Portal;
     
-    constructor(menuManager: MenuManager, you: Player) {
+    constructor(menuManager: MenuManager, you: Player, portal: Portal) {
         this.menuManager = menuManager;
         this.you = you;
+        this.portal = portal;
     }
 
     public open() {
@@ -19,15 +22,13 @@ export class ActionMenu {
         form.button("Delete", "textures/items/diamond_helmet");
       
         form.show(this.you).then((response: ActionFormResponse) => {
-            if (response.canceled) {
-                // They've canceled. Do nothing.
-            } else if (response.selection !== undefined) {
+            if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    // teleport them this.menuManager.
+                    this.menuManager.actionMenuSelectedGoTo(this.portal);
                 } else if (response.selection == 1) {
-                    // edit menu this.menuManager.
+                    this.menuManager.actionMenuEdit(this.portal);
                 } else if (response.selection == 2) {
-                    // they want to delete this portal
+                    this.menuManager.actionMenuDelete(this.portal);
                 }
             }
         });

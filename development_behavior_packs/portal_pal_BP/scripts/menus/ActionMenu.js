@@ -1,8 +1,9 @@
 import { ActionFormData } from '@minecraft/server-ui';
 export class ActionMenu {
-    constructor(menuManager, you) {
+    constructor(menuManager, you, portal) {
         this.menuManager = menuManager;
         this.you = you;
+        this.portal = portal;
     }
     open() {
         let form = new ActionFormData().title('Available Portals');
@@ -15,13 +16,13 @@ export class ActionMenu {
             }
             else if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    // teleport them this.menuManager.
+                    this.menuManager.actionMenuSelectedGoTo(this.portal);
                 }
                 else if (response.selection == 1) {
-                    // edit menu this.menuManager.
+                    this.menuManager.actionMenuEdit(this.portal);
                 }
                 else if (response.selection == 2) {
-                    // they want to delete this portal
+                    this.menuManager.actionMenuDelete(this.portal);
                 }
             }
         });

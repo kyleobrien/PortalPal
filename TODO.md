@@ -9,3 +9,5 @@ General things that aren't tracked in TODO comments.
     -   Better PortalPal texture.
     -   Better behavior and texture pack artwork.
 -   Fix the sound so that it plays for everyone in the vicinity of the teleport (outgoing and incoming).
+-   Do I need to escape characters going into the json?
+-   Code review and clean up.

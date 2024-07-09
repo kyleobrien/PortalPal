@@ -48,7 +48,7 @@ export class PortalMenu {
                     // FIXME: if we ever change to show players who are not logged in,
                     //        then we can't always sutract by 2.
                     let portal = this.savedData.portals[response.selection - 2];
-                    this.menuManager.portalMenuSelected(this.chosenPlayer, portal);
+                    this.menuManager.portalMenuSelected(portal, this.chosenPlayer);
                 }
             }
         });

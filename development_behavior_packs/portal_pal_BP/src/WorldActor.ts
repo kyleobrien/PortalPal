@@ -16,7 +16,7 @@ export class WorldActor {
         };
 
         if (player.id == this.you.id) {
-            this.sendMessage("Can't teleport to yourself. You're already there!", false);
+            this.sendMessage("ERROR: Can't teleport to yourself. You're already there!", false);
         } else {
             let name = this.possessiveName(player.name);
             if (this.you.tryTeleport(player.location, teleportOptions)) {
@@ -65,7 +65,7 @@ export class WorldActor {
         };
 
         if (this.you.tryTeleport(portal.location, teleportOptions)) {
-            this.sendMessage(`Teleported to ${portal.name}...`, true);
+            this.sendMessage(`Teleported to ${portal.name} portal...`, true);
         } else {
             this.sendMessage(`ERROR: Failed to teleport to ${portal.name}!`, false);
         }

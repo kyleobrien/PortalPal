@@ -38,11 +38,9 @@ export class MenuManager {
     portalMenuTeleportToSpawn(targetPlayer) {
         this.worldActor.teleportToPlayerSpawn(targetPlayer);
     }
-    // REFACTOR BELOW!
-    portalMenuSelected(forPlayer, portal) {
+    portalMenuSelected(portal, forPlayer) {
         if (this.isPlayerYou(forPlayer)) {
-            // TODO: figure this out
-            let actionMenu = new ActionMenu(this, this.you);
+            let actionMenu = new ActionMenu(this, this.you, portal);
             actionMenu.open();
         }
         else {
@@ -53,6 +51,15 @@ export class MenuManager {
         let propertiesMenu = new PropertiesMenu(this, false);
         propertiesMenu.open();
     }
+    // ACTION MENU
+    actionMenuSelectedGoTo(portal) {
+        this.worldActor.teleportToPortal(portal);
+    }
+    actionMenuEdit(portal) {
+    }
+    actionMenuDelete(portal) {
+    }
+    // REFACTOR BELOW
     handlePropertiesSubmit(formValues, isExistingPortal) {
         let portal = {
             "id": "",

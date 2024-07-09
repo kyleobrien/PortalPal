@@ -57,7 +57,7 @@ export class WorldActor {
             dimension: world.getDimension(portal.dimension)
         };
         if (this.you.tryTeleport(portal.location, teleportOptions)) {
-            this.sendMessage(`Teleported to ${portal.name} ...`, true);
+            this.sendMessage(`Teleported to ${portal.name}...`, true);
         }
         else {
             this.sendMessage(`ERROR: Failed to teleport to ${portal.name}!`, false);
