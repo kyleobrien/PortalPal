@@ -9,14 +9,15 @@ export class PortalService {
         // TODO: Need to figure out size and not saving more than 10KB.
         // const size = new TextEncoder().encode(JSON.stringify(writeData)).length;
         // Logger.log(size.toString());
-        let isSuccess = false;
-        try {
-            let propertyName = this.makePropertyName(player);
-            world.setDynamicProperty(propertyName, JSON.stringify(fetchedData));
-            isSuccess = true;
-        }
-        catch (error) { }
-        return isSuccess;
+        return this.writeSavedData(fetchedData, player);
+    }
+    deletePortal(deletedPortal, player) {
+        let savedData = this.fetchDataFor(player, false);
+        let temp = savedData.portals.filter(function (portal) {
+            return portal.id != deletedPortal.id;
+        });
+        savedData.portals = temp;
+        return this.writeSavedData(savedData, player);
     }
     fetchDataFor(player, excludePrivate = false) {
         let propertyName = this.makePropertyName(player);
@@ -35,6 +36,16 @@ export class PortalService {
             fetchedData.portals = publicPortals;
         }
         return fetchedData;
+    }
+    writeSavedData(savedData, forPlayer) {
+        let isSuccess = false;
+        try {
+            let propertyName = this.makePropertyName(forPlayer);
+            world.setDynamicProperty(propertyName, JSON.stringify(savedData));
+            isSuccess = true;
+        }
+        catch (error) { }
+        return isSuccess;
     }
     makePropertyName(player) {
         return `pp_${player.id}`;

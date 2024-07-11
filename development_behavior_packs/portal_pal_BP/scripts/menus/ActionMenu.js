@@ -11,10 +11,7 @@ export class ActionMenu {
         form.button("Edit", "textures/items/diamond_helmet");
         form.button("Delete", "textures/items/diamond_helmet");
         form.show(this.you).then((response) => {
-            if (response.canceled) {
-                // They've canceled. Do nothing.
-            }
-            else if (response.selection !== undefined) {
+            if (response.selection !== undefined) {
                 if (response.selection == 0) {
                     this.menuManager.actionMenuSelectedGoTo(this.portal);
                 }

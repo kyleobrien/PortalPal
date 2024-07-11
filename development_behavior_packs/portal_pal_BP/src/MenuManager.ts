@@ -1,5 +1,6 @@
 import { system, world, Player, ItemUseAfterEvent } from '@minecraft/server';
 import { ActionMenu } from './menus/ActionMenu';
+import { ConfirmMenu } from './menus/ConfirmMenu';
 import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
 import { PortalService, Portal } from './PortalService';
@@ -80,14 +81,24 @@ export class MenuManager {
     }
 
     public actionMenuEdit(portal: Portal) {
-
+        // TODO: show the prpoerties menu for the portal in the correct mode.
     }
     
     public actionMenuDelete(portal: Portal) {
-
+        let confirmMenu = new ConfirmMenu(this, portal);
+        confirmMenu.open();
     }
 
-    // REFACTOR BELOW
+    // CONFIRM MENU
+
+    public confirmMenuDelete(portal: Portal) {
+        let result = this.portalService.deletePortal(portal, this.you);
+        if (result) {
+            this.you.sendMessage(`Deleted the portal ${portal.name}`);
+        } else {
+            this.you.sendMessage(`There was a problem deleting the portal ${portal.name}`);
+        }
+    }
 
     public handlePropertiesSubmit(formValues, isExistingPortal) {
         let portal = {

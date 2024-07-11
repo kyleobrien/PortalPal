@@ -31,14 +31,18 @@ export class PortalService {
         // const size = new TextEncoder().encode(JSON.stringify(writeData)).length;
         // Logger.log(size.toString());
 
-        let isSuccess = false;
-        try {
-            let propertyName = this.makePropertyName(player);
-            world.setDynamicProperty(propertyName, JSON.stringify(fetchedData));
-            isSuccess = true;
-        } catch (error) {}
+        return this.writeSavedData(fetchedData, player);
+    }
+
+    public deletePortal(deletedPortal: Portal, player: Player): boolean {
+        let savedData = this.fetchDataFor(player, false);
+        let temp = savedData.portals.filter(function(portal) {
+            return portal.id != deletedPortal.id;
+        });
+
+        savedData.portals = temp;
         
-        return isSuccess;
+        return this.writeSavedData(savedData, player);
     }
 
     public fetchDataFor(player: Player, excludePrivate: boolean = false): SavedData {
@@ -61,6 +65,17 @@ export class PortalService {
         }
 
         return fetchedData;
+    }
+
+    private writeSavedData(savedData: SavedData, forPlayer: Player): boolean {
+        let isSuccess = false;
+        try {
+            let propertyName = this.makePropertyName(forPlayer);
+            world.setDynamicProperty(propertyName, JSON.stringify(savedData));
+            isSuccess = true;
+        } catch (error) {}
+        
+        return isSuccess;
     }
 
     private makePropertyName(player: Player): string {

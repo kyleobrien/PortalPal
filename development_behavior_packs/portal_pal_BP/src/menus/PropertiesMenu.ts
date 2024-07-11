@@ -23,7 +23,6 @@ export class PropertiesMenu {
         form.toggle("Private", false);
 
         form.show(this.menuManager.you).then((response: ModalFormResponse) => {
-            console.log("here");
             if (!response.canceled && response.formValues) {
                 this.menuManager.handlePropertiesSubmit(response.formValues, this.isExistingPortal);
             }
