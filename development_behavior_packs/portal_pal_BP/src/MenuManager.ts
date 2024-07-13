@@ -1,4 +1,4 @@
-import { system, world, Player, ItemUseAfterEvent } from '@minecraft/server';
+import { system, world, Player } from '@minecraft/server';
 import { ActionMenu } from './menus/ActionMenu';
 import { ConfirmMenu } from './menus/ConfirmMenu';
 import { MainMenu } from './menus/MainMenu';
@@ -16,8 +16,8 @@ export class MenuManager {
     private readonly portalService: PortalService;
     private readonly worldActor: WorldActor;
 
-    constructor(event: ItemUseAfterEvent) {
-        this.you = event.source;
+    constructor(you: Player) {
+        this.you = you;
 
         this.portalService = new PortalService();
         this.worldActor = new WorldActor(this.you);

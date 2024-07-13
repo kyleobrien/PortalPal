@@ -7,8 +7,8 @@ import { PortalService } from './PortalService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { WorldActor } from './WorldActor';
 export class MenuManager {
-    constructor(event) {
-        this.you = event.source;
+    constructor(you) {
+        this.you = you;
         this.portalService = new PortalService();
         this.worldActor = new WorldActor(this.you);
     }
