@@ -34,6 +34,10 @@ export class PortalService {
         return this.writeSavedData(fetchedData, player);
     }
 
+    public editPortal(player: Player, portal: Portal): boolean {
+        return false;
+    }
+
     public deletePortal(deletedPortal: Portal, player: Player): boolean {
         let savedData = this.fetchDataFor(player, false);
         let temp = savedData.portals.filter(function(portal) {

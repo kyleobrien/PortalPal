@@ -70,7 +70,7 @@ export class MenuManager {
     }
 
     public portalMenuAddNewPortal() {
-        let propertiesMenu = new PropertiesMenu(this, false);
+        let propertiesMenu = new PropertiesMenu(this);
         propertiesMenu.open();
     }
 
@@ -81,7 +81,8 @@ export class MenuManager {
     }
 
     public actionMenuEdit(portal: Portal) {
-        // TODO: show the prpoerties menu for the portal in the correct mode.
+        let propertiesMenu = new PropertiesMenu(this, portal);
+        propertiesMenu.open();
     }
     
     public actionMenuDelete(portal: Portal) {
@@ -100,7 +101,7 @@ export class MenuManager {
         }
     }
 
-    public handlePropertiesSubmit(formValues, isExistingPortal) {
+    public handlePropertiesSubmitForAdd(formValues) {
         let portal = {
             "id": "",
             "name": formValues[0],
@@ -115,12 +116,26 @@ export class MenuManager {
         if (success) {
             this.you.sendMessage(`Added ${portal.name} to your saved portals.`);
         } else {
-            this.you.sendMessage(`There was a prolem adding ${portal.name} to your saved portals.`);
+            this.you.sendMessage(`There was a problem adding ${portal.name} to your saved portals.`);
         }
 
         // TEST
         let saved = this.portalService.fetchDataFor(this.you);
         Logger.log(JSON.stringify(saved));
+    }
+
+    public handlePropertiesSubmitForEdit(formValues, existingPortal) {
+        existingPortal.name = formValues[0];
+        existingPortal.color = formValues[1];
+        existingPortal.private = formValues[2];
+
+        let success = this.portalService.editPortal(this.you, existingPortal);
+
+        if (success) {
+            this.you.sendMessage(`Updated "${existingPortal.name}" portal.`);
+        } else {
+            this.you.sendMessage(`There was a problem updating ${existingPortal.name} portal.`);
+        }
     }
 
     public isPlayerYou(player: Player): boolean {

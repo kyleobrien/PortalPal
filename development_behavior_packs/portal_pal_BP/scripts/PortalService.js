@@ -11,6 +11,9 @@ export class PortalService {
         // Logger.log(size.toString());
         return this.writeSavedData(fetchedData, player);
     }
+    editPortal(player, portal) {
+        return false;
+    }
     deletePortal(deletedPortal, player) {
         let savedData = this.fetchDataFor(player, false);
         let temp = savedData.portals.filter(function (portal) {
