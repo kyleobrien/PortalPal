@@ -15,7 +15,7 @@ export class ActionMenu {
     }
 
     public open() {
-        let form = new ActionFormData().title('Available Portals');
+        let form = new ActionFormData().title('Actions');
         
         form.button("Go!", "textures/items/diamond_helmet");
         form.button("Edit", "textures/items/diamond_helmet");

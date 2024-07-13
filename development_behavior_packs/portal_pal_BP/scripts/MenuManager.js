@@ -5,7 +5,6 @@ import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
 import { PortalService } from './PortalService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
-import { Logger } from './Logger';
 import { WorldActor } from './WorldActor';
 export class MenuManager {
     constructor(event) {
@@ -91,8 +90,8 @@ export class MenuManager {
             this.you.sendMessage(`There was a problem adding ${portal.name} to your saved portals.`);
         }
         // TEST
-        let saved = this.portalService.fetchDataFor(this.you);
-        Logger.log(JSON.stringify(saved));
+        // let saved = this.portalService.fetchDataFor(this.you);
+        // Logger.log(JSON.stringify(saved));
     }
     handlePropertiesSubmitForEdit(formValues, existingPortal) {
         existingPortal.name = formValues[0];

@@ -29,7 +29,8 @@ export class PortalMenu {
                 else if (response.selection == 1) {
                     this.menuManager.portalMenuTeleportToSpawn(this.chosenPlayer);
                 }
-                else if (response.selection == buttonCount - 1) {
+                else if ((response.selection == buttonCount - 1) &&
+                    (this.menuManager.isPlayerYou(this.chosenPlayer))) {
                     this.menuManager.portalMenuAddNewPortal();
                 }
                 else {

@@ -120,8 +120,8 @@ export class MenuManager {
         }
 
         // TEST
-        let saved = this.portalService.fetchDataFor(this.you);
-        Logger.log(JSON.stringify(saved));
+        // let saved = this.portalService.fetchDataFor(this.you);
+        // Logger.log(JSON.stringify(saved));
     }
 
     public handlePropertiesSubmitForEdit(formValues, existingPortal) {

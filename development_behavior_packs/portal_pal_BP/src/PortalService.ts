@@ -35,7 +35,12 @@ export class PortalService {
     }
 
     public editPortal(player: Player, portal: Portal): boolean {
-        return false;
+        let deleteResult = this.deletePortal(portal, player);
+        if (!deleteResult) {
+            return false;
+        }
+
+        return this.addPortal(player, portal);
     }
 
     public deletePortal(deletedPortal: Portal, player: Player): boolean {

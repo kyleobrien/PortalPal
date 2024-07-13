@@ -12,7 +12,11 @@ export class PortalService {
         return this.writeSavedData(fetchedData, player);
     }
     editPortal(player, portal) {
-        return false;
+        let deleteResult = this.deletePortal(portal, player);
+        if (!deleteResult) {
+            return false;
+        }
+        return this.addPortal(player, portal);
     }
     deletePortal(deletedPortal, player) {
         let savedData = this.fetchDataFor(player, false);
