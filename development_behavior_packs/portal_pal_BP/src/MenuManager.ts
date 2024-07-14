@@ -5,8 +5,8 @@ import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
 import { PortalService, Portal } from './PortalService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
-import { Logger } from './Logger';
 import { WorldActor } from './WorldActor';
+import { Utilities } from 'Utilities';
 
 export class MenuManager {
     // TODO: Can I make this private?
@@ -39,7 +39,7 @@ export class MenuManager {
     public mainMenuSelected(chosenPlayer: Player) {
         let savedData;
 
-        if (this.isPlayerYou(chosenPlayer)) {
+        if (Utilities.arePlayersTheSame(this.you, chosenPlayer)) {
             savedData = this.portalService.fetchDataFor(chosenPlayer, false);
         } else {
             savedData = this.portalService.fetchDataFor(chosenPlayer, true);
@@ -52,15 +52,15 @@ export class MenuManager {
     // PORTAL MENU
 
     public portalMenuTeleportToCurrentLocation(targetPlayer: Player) {
-        this.worldActor.teleportToPlayerLocation(targetPlayer);
+        this.worldActor.teleportToLocationOfPlayer(targetPlayer);
     }
 
     public portalMenuTeleportToSpawn(targetPlayer: Player) {
-        this.worldActor.teleportToPlayerSpawn(targetPlayer);
+        this.worldActor.teleportToSpawnOfPlayer(targetPlayer);
     }
 
     public portalMenuSelected(portal: Portal, forPlayer: Player) {
-        if (this.isPlayerYou(forPlayer)) {
+        if (Utilities.arePlayersTheSame(this.you, forPlayer)) {
             let actionMenu = new ActionMenu(this, this.you, portal);
             actionMenu.open();
 
@@ -136,14 +136,6 @@ export class MenuManager {
         } else {
             this.you.sendMessage(`There was a problem updating ${existingPortal.name} portal.`);
         }
-    }
-
-    public isPlayerYou(player: Player): boolean {
-        if (player.id == this.you.id) {
-            return true;
-        }
-
-        return false;
     }
 
     public findAllOtherPlayersBut(you: Player): Player[] {

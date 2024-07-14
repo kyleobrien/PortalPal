@@ -1,4 +1,5 @@
 import { ActionFormData } from '@minecraft/server-ui';
+import { Utilities } from 'Utilities';
 export class PortalMenu {
     constructor(menuManager, chosenPlayer, savedData) {
         this.menuManager = menuManager;
@@ -17,7 +18,7 @@ export class PortalMenu {
             form.button(portal.name, "textures/items/diamond_helmet");
             buttonCount += 1;
         }
-        if (this.menuManager.isPlayerYou(this.chosenPlayer)) {
+        if (Utilities.arePlayersTheSame(this.menuManager.you, this.chosenPlayer)) {
             form.button("Add Portal", "textures/items/diamond_helmet");
             buttonCount += 1;
         }
@@ -30,7 +31,7 @@ export class PortalMenu {
                     this.menuManager.portalMenuTeleportToSpawn(this.chosenPlayer);
                 }
                 else if ((response.selection == buttonCount - 1) &&
-                    (this.menuManager.isPlayerYou(this.chosenPlayer))) {
+                    Utilities.arePlayersTheSame(this.menuManager.you, this.chosenPlayer)) {
                     this.menuManager.portalMenuAddNewPortal();
                 }
                 else {

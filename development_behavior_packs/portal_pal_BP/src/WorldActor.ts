@@ -1,6 +1,5 @@
-import { system, world, Player, Dimension } from '@minecraft/server';
+import { system, world, Player } from '@minecraft/server';
 import { Portal } from './PortalService';
-import { Logger } from './Logger';
 
 export class WorldActor {
     private readonly you: Player;
@@ -9,7 +8,7 @@ export class WorldActor {
         this.you = you;
     }
 
-    public teleportToPlayerLocation(player: Player) {
+    public teleportToLocationOfPlayer(player: Player) {
         let teleportOptions = {
             checkForBlocks: true,
             dimension: player.dimension
@@ -27,7 +26,7 @@ export class WorldActor {
         }
     }
 
-    public teleportToPlayerSpawn(player: Player) {
+    public teleportToSpawnOfPlayer(player: Player) {
         let spawnPoint = player.getSpawnPoint();
         if (spawnPoint !== undefined) {
             let spawnPointLocation = {

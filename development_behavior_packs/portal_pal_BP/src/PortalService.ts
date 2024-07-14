@@ -1,5 +1,4 @@
 import { world, Player } from '@minecraft/server';
-import { Logger } from './Logger';
 
 export interface Portal {
     id: string;

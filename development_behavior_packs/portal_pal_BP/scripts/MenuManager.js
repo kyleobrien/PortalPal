@@ -6,6 +6,7 @@ import { PortalMenu } from './menus/PortalMenu';
 import { PortalService } from './PortalService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { WorldActor } from './WorldActor';
+import { Utilities } from 'Utilities';
 export class MenuManager {
     constructor(you) {
         this.you = you;
@@ -22,7 +23,7 @@ export class MenuManager {
     // MAIN MENU
     mainMenuSelected(chosenPlayer) {
         let savedData;
-        if (this.isPlayerYou(chosenPlayer)) {
+        if (Utilities.arePlayersTheSame(this.you, chosenPlayer)) {
             savedData = this.portalService.fetchDataFor(chosenPlayer, false);
         }
         else {
@@ -33,13 +34,13 @@ export class MenuManager {
     }
     // PORTAL MENU
     portalMenuTeleportToCurrentLocation(targetPlayer) {
-        this.worldActor.teleportToPlayerLocation(targetPlayer);
+        this.worldActor.teleportToLocationOfPlayer(targetPlayer);
     }
     portalMenuTeleportToSpawn(targetPlayer) {
-        this.worldActor.teleportToPlayerSpawn(targetPlayer);
+        this.worldActor.teleportToSpawnOfPlayer(targetPlayer);
     }
     portalMenuSelected(portal, forPlayer) {
-        if (this.isPlayerYou(forPlayer)) {
+        if (Utilities.arePlayersTheSame(this.you, forPlayer)) {
             let actionMenu = new ActionMenu(this, this.you, portal);
             actionMenu.open();
         }
@@ -104,12 +105,6 @@ export class MenuManager {
         else {
             this.you.sendMessage(`There was a problem updating ${existingPortal.name} portal.`);
         }
-    }
-    isPlayerYou(player) {
-        if (player.id == this.you.id) {
-            return true;
-        }
-        return false;
     }
     findAllOtherPlayersBut(you) {
         let everyone = world.getAllPlayers();

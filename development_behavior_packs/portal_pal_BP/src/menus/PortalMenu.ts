@@ -2,6 +2,7 @@ import { Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
 import { MenuManager } from '../MenuManager';
 import { SavedData } from '../PortalService';
+import { Utilities } from 'Utilities';
 
 export class PortalMenu {
     private readonly menuManager: MenuManager;
@@ -31,7 +32,7 @@ export class PortalMenu {
             buttonCount += 1;
         }
 
-        if (this.menuManager.isPlayerYou(this.chosenPlayer)) {
+        if (Utilities.arePlayersTheSame(this.menuManager.you, this.chosenPlayer)) {
             form.button("Add Portal", "textures/items/diamond_helmet");
             buttonCount += 1;
         }
@@ -43,7 +44,7 @@ export class PortalMenu {
                 } else if (response.selection == 1) {
                     this.menuManager.portalMenuTeleportToSpawn(this.chosenPlayer);
                 } else if ((response.selection == buttonCount - 1 ) &&
-                           (this.menuManager.isPlayerYou(this.chosenPlayer))) {
+                           Utilities.arePlayersTheSame(this.menuManager.you, this.chosenPlayer)) {
                     this.menuManager.portalMenuAddNewPortal();
                 } else {
                     // FIXME: if we ever change to show players who are not logged in,

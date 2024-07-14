@@ -3,7 +3,7 @@ export class WorldActor {
     constructor(you) {
         this.you = you;
     }
-    teleportToPlayerLocation(player) {
+    teleportToLocationOfPlayer(player) {
         let teleportOptions = {
             checkForBlocks: true,
             dimension: player.dimension
@@ -21,7 +21,7 @@ export class WorldActor {
             }
         }
     }
-    teleportToPlayerSpawn(player) {
+    teleportToSpawnOfPlayer(player) {
         let spawnPoint = player.getSpawnPoint();
         if (spawnPoint !== undefined) {
             let spawnPointLocation = {
