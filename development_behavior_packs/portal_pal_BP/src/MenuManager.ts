@@ -5,7 +5,7 @@ import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
 import { PortalService, Portal } from './PortalService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
-import { WorldActor } from './WorldActor';
+import { Teleport } from './Teleport';
 import { Utilities } from 'Utilities';
 
 export class MenuManager {
@@ -14,13 +14,13 @@ export class MenuManager {
     private otherPlayers: Player[];
 
     private readonly portalService: PortalService;
-    private readonly worldActor: WorldActor;
+    private readonly teleport: Teleport;
 
     constructor(you: Player) {
         this.you = you;
 
         this.portalService = new PortalService();
-        this.worldActor = new WorldActor(this.you);
+        this.teleport = new Teleport(this.you);
     }
 
     public start() {
@@ -52,11 +52,11 @@ export class MenuManager {
     // PORTAL MENU
 
     public portalMenuTeleportToCurrentLocation(targetPlayer: Player) {
-        this.worldActor.teleportToLocationOfPlayer(targetPlayer);
+        this.teleport.toLocationOfPlayer(targetPlayer);
     }
 
     public portalMenuTeleportToSpawn(targetPlayer: Player) {
-        this.worldActor.teleportToSpawnOfPlayer(targetPlayer);
+        this.teleport.toSpawnOfPlayer(targetPlayer);
     }
 
     public portalMenuSelected(portal: Portal, forPlayer: Player) {
@@ -65,7 +65,7 @@ export class MenuManager {
             actionMenu.open();
 
         } else {
-            this.worldActor.teleportToPortal(portal);
+            this.teleport.toPortal(portal);
         }
     }
 
@@ -77,7 +77,7 @@ export class MenuManager {
     // ACTION MENU
 
     public actionMenuSelectedGoTo(portal: Portal) {
-        this.worldActor.teleportToPortal(portal);
+        this.teleport.toPortal(portal);
     }
 
     public actionMenuEdit(portal: Portal) {

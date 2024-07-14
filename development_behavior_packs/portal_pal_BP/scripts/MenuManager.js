@@ -5,13 +5,13 @@ import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
 import { PortalService } from './PortalService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
-import { WorldActor } from './WorldActor';
+import { Teleport } from './Teleport';
 import { Utilities } from 'Utilities';
 export class MenuManager {
     constructor(you) {
         this.you = you;
         this.portalService = new PortalService();
-        this.worldActor = new WorldActor(this.you);
+        this.teleport = new Teleport(this.you);
     }
     start() {
         let mainMenu = new MainMenu(this, this.you, this.findAllOtherPlayersBut(this.you));
@@ -34,10 +34,10 @@ export class MenuManager {
     }
     // PORTAL MENU
     portalMenuTeleportToCurrentLocation(targetPlayer) {
-        this.worldActor.teleportToLocationOfPlayer(targetPlayer);
+        this.teleport.toLocationOfPlayer(targetPlayer);
     }
     portalMenuTeleportToSpawn(targetPlayer) {
-        this.worldActor.teleportToSpawnOfPlayer(targetPlayer);
+        this.teleport.toSpawnOfPlayer(targetPlayer);
     }
     portalMenuSelected(portal, forPlayer) {
         if (Utilities.arePlayersTheSame(this.you, forPlayer)) {
@@ -45,7 +45,7 @@ export class MenuManager {
             actionMenu.open();
         }
         else {
-            this.worldActor.teleportToPortal(portal);
+            this.teleport.toPortal(portal);
         }
     }
     portalMenuAddNewPortal() {
@@ -54,7 +54,7 @@ export class MenuManager {
     }
     // ACTION MENU
     actionMenuSelectedGoTo(portal) {
-        this.worldActor.teleportToPortal(portal);
+        this.teleport.toPortal(portal);
     }
     actionMenuEdit(portal) {
         let propertiesMenu = new PropertiesMenu(this, portal);
