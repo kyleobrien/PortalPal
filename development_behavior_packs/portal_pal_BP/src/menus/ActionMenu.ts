@@ -1,16 +1,15 @@
 import { Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
+
 import { MenuManager } from '../MenuManager';
 import { Portal } from '../ReadWriteService';
 
 export class ActionMenu {
     private readonly menuManager: MenuManager;
-    private readonly you: Player;
     private readonly portal: Portal;
     
-    constructor(menuManager: MenuManager, you: Player, portal: Portal) {
+    constructor(menuManager: MenuManager, portal: Portal) {
         this.menuManager = menuManager;
-        this.you = you;
         this.portal = portal;
     }
 
@@ -21,7 +20,7 @@ export class ActionMenu {
         form.button("Edit", "textures/items/diamond_helmet");
         form.button("Delete", "textures/items/diamond_helmet");
       
-        form.show(this.you).then((response: ActionFormResponse) => {
+        form.show(this.menuManager.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
                     this.menuManager.actionMenuSelectedGoTo(this.portal);

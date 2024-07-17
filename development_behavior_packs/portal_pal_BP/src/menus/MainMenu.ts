@@ -5,12 +5,10 @@ import { MenuManager } from '../MenuManager';
 
 export class MainMenu {
     private readonly menuManager: MenuManager;
-    private readonly you: Player;
     private readonly otherPlayers: Player[];
     
-    constructor(menuManager: MenuManager, you: Player, otherPlayers: Player[]) {
+    constructor(menuManager: MenuManager, otherPlayers: Player[]) {
         this.menuManager = menuManager;
-        this.you = you;
         this.otherPlayers = otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
     }
 
@@ -23,10 +21,10 @@ export class MainMenu {
             form.button(player.name, "textures/items/iron_helmet");
         }
 
-        form.show(this.you).then((response: ActionFormResponse) => {
+        form.show(this.menuManager.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.menuManager.mainMenuSelected(this.you);
+                    this.menuManager.mainMenuSelected(this.menuManager.you);
                 } else {
                     let index = response.selection - 1;
                     this.menuManager.mainMenuSelected(this.otherPlayers[index]);

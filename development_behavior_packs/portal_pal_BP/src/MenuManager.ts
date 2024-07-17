@@ -1,17 +1,16 @@
 import { world, Player } from '@minecraft/server';
+
 import { ActionMenu } from './menus/ActionMenu';
 import { ConfirmMenu } from './menus/ConfirmMenu';
 import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
-import { ReadWriteService, Portal } from './ReadWriteService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
+import { ReadWriteService, Portal } from './ReadWriteService';
 import { Teleport } from './Teleport';
 import { Utilities } from 'Utilities';
 
 export class MenuManager {
-    // TODO: Can I make this private?
     public you: Player;
-    private otherPlayers: Player[];
 
     private readonly readWriteService: ReadWriteService;
     private readonly teleport: Teleport;
@@ -24,9 +23,7 @@ export class MenuManager {
     }
 
     public start() {
-        let mainMenu = new MainMenu(this,
-                                    this.you,
-                                    this.findAllOtherPlayersBut(this.you));
+        let mainMenu = new MainMenu(this, this.findAllOtherPlayersBut(this.you));
         mainMenu.open();
     }
 
@@ -61,7 +58,7 @@ export class MenuManager {
 
     public portalMenuSelected(portal: Portal, forPlayer: Player) {
         if (Utilities.arePlayersTheSame(this.you, forPlayer)) {
-            let actionMenu = new ActionMenu(this, this.you, portal);
+            let actionMenu = new ActionMenu(this, portal);
             actionMenu.open();
 
         } else {
