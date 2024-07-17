@@ -3,8 +3,8 @@ import { ActionMenu } from './menus/ActionMenu';
 import { ConfirmMenu } from './menus/ConfirmMenu';
 import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
-import { ReadWriteService } from './ReadWriteService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
+import { ReadWriteService } from './ReadWriteService';
 import { Teleport } from './Teleport';
 import { Utilities } from 'Utilities';
 export class MenuManager {
@@ -14,7 +14,7 @@ export class MenuManager {
         this.teleport = new Teleport(this.you);
     }
     start() {
-        let mainMenu = new MainMenu(this, this.you, this.findAllOtherPlayersBut(this.you));
+        let mainMenu = new MainMenu(this, this.findAllOtherPlayersBut(this.you));
         mainMenu.open();
     }
     /**************************************
@@ -41,7 +41,7 @@ export class MenuManager {
     }
     portalMenuSelected(portal, forPlayer) {
         if (Utilities.arePlayersTheSame(this.you, forPlayer)) {
-            let actionMenu = new ActionMenu(this, this.you, portal);
+            let actionMenu = new ActionMenu(this, portal);
             actionMenu.open();
         }
         else {

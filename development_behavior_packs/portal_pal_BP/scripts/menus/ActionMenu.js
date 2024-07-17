@@ -1,8 +1,7 @@
 import { ActionFormData } from '@minecraft/server-ui';
 export class ActionMenu {
-    constructor(menuManager, you, portal) {
+    constructor(menuManager, portal) {
         this.menuManager = menuManager;
-        this.you = you;
         this.portal = portal;
     }
     open() {
@@ -10,7 +9,7 @@ export class ActionMenu {
         form.button("Go!", "textures/items/diamond_helmet");
         form.button("Edit", "textures/items/diamond_helmet");
         form.button("Delete", "textures/items/diamond_helmet");
-        form.show(this.you).then((response) => {
+        form.show(this.menuManager.you).then((response) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
                     this.menuManager.actionMenuSelectedGoTo(this.portal);
