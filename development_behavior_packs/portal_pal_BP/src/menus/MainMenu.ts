@@ -10,15 +10,14 @@ export class MainMenu {
     constructor(menuManager: MenuManager, you: Player, otherPlayers: Player[]) {
         this.menuManager = menuManager;
         this.you = you;
-        this.otherPlayers = otherPlayers;
+        this.otherPlayers = otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
     }
 
     public open(): void {
         let form = new ActionFormData().title('PortalPal');
-
-        // TODO: figure out how to show icons for each player
         
         form.button("Your Portals", "textures/items/diamond_helmet");
+
         for (const player of this.otherPlayers) {
             form.button(player.name, "textures/items/iron_helmet");
         }

@@ -1,4 +1,4 @@
-import { system, world, Player } from '@minecraft/server';
+import { world, Player } from '@minecraft/server';
 import { ActionMenu } from './menus/ActionMenu';
 import { ConfirmMenu } from './menus/ConfirmMenu';
 import { MainMenu } from './menus/MainMenu';
