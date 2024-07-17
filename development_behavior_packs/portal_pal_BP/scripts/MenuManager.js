@@ -3,14 +3,14 @@ import { ActionMenu } from './menus/ActionMenu';
 import { ConfirmMenu } from './menus/ConfirmMenu';
 import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
-import { PortalService } from './PortalService';
+import { ReadWriteService } from './ReadWriteService';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { Teleport } from './Teleport';
 import { Utilities } from 'Utilities';
 export class MenuManager {
     constructor(you) {
         this.you = you;
-        this.portalService = new PortalService();
+        this.readWriteService = new ReadWriteService();
         this.teleport = new Teleport(this.you);
     }
     start() {
@@ -24,10 +24,10 @@ export class MenuManager {
     mainMenuSelected(chosenPlayer) {
         let savedData;
         if (Utilities.arePlayersTheSame(this.you, chosenPlayer)) {
-            savedData = this.portalService.fetchDataFor(chosenPlayer, false);
+            savedData = this.readWriteService.fetchDataForPlayer(chosenPlayer, false);
         }
         else {
-            savedData = this.portalService.fetchDataFor(chosenPlayer, true);
+            savedData = this.readWriteService.fetchDataForPlayer(chosenPlayer, true);
         }
         let portalMenu = new PortalMenu(this, chosenPlayer, savedData);
         portalMenu.open();
@@ -66,7 +66,7 @@ export class MenuManager {
     }
     // CONFIRM MENU
     confirmMenuDelete(portal) {
-        let result = this.portalService.deletePortal(portal, this.you);
+        let result = this.readWriteService.deletePortal(portal, this.you);
         if (result) {
             this.you.sendMessage(`Deleted the portal ${portal.name}`);
         }
@@ -83,7 +83,7 @@ export class MenuManager {
             "location": this.you.location,
             "dimension": this.you.dimension.id.split(":")[1]
         };
-        let success = this.portalService.addPortal(this.you, portal);
+        let success = this.readWriteService.addPortal(portal, this.you);
         if (success) {
             this.you.sendMessage(`Added ${portal.name} to your saved portals.`);
         }
@@ -98,7 +98,7 @@ export class MenuManager {
         existingPortal.name = formValues[0];
         existingPortal.color = formValues[1];
         existingPortal.private = formValues[2];
-        let success = this.portalService.editPortal(this.you, existingPortal);
+        let success = this.readWriteService.editPortal(existingPortal, this.you);
         if (success) {
             this.you.sendMessage(`Updated "${existingPortal.name}" portal.`);
         }

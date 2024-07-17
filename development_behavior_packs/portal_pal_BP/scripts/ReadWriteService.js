@@ -1,8 +1,8 @@
 import { world } from '@minecraft/server';
-export class PortalService {
+export class ReadWriteService {
     addPortal(portal, player) {
         this.slimPortal(portal);
-        portal.id = this.generateUniqueID();
+        portal.id = this.makeUniqueID();
         let savedData = this.fetchDataForPlayer(player);
         savedData.portals.push(portal);
         return this.writeSavedData(savedData, player);
@@ -30,7 +30,9 @@ export class PortalService {
                 fetchedData = JSON.parse(readData.toString());
             }
         }
-        catch { }
+        catch {
+            // TODO: Better handling here.
+        }
         if (excludePrivate) {
             let publicPortals = fetchedData.portals.filter((portal) => {
                 return portal.private === false;
@@ -42,32 +44,26 @@ export class PortalService {
     writeSavedData(savedData, forPlayer) {
         savedData.portals = savedData.portals.sort((a, b) => a.name.localeCompare(b.name));
         // TODO: Need to figure out size and not saving more than 10KB.
+        // None of the approaches work below, because I don't have access to the libraries.
         // const size = new TextEncoder().encode(JSON.stringify(writeData)).length;
-        // Logger.log(size.toString());
-        /*
-        let test = this.getByteSize(JSON.stringify(savedData))
-        Utilities.log(`SIZE: ${test}`);
-
-        let test2 = new Blob([JSON.stringify(savedData)]).size;
-        Utilities.log(`SIZE 2: ${test2}`);
-
-        JSON.stringify(savedData).
-        */
-        let isSuccess = false;
+        // const size = new Blob([JSON.stringify(savedData)]).size;
+        let success = false;
         try {
             let propertyName = this.makePropertyName(forPlayer);
             world.setDynamicProperty(propertyName, JSON.stringify(savedData));
-            isSuccess = true;
+            success = true;
         }
-        catch (error) { }
-        return isSuccess;
+        catch (error) {
+            // TODO: Better handling here.
+        }
+        return success;
     }
     makePropertyName(player) {
         return `pp_${player.id}`;
     }
-    generateUniqueID() {
+    makeUniqueID() {
         // This is a hack since I don't have access to GUIDs,
-        // so I'm going with a good enough, straightforward solution.
+        // but I'm going with a good enough, straightforward solution.
         // These should be unique across a single player's portals, which is sufficient.
         return new Date().getTime().toString();
     }
@@ -75,26 +71,5 @@ export class PortalService {
         portal.location.x = Math.floor(portal.location.x);
         portal.location.y = Math.floor(portal.location.y);
         portal.location.z = Math.floor(portal.location.z);
-    }
-    getByteSize(str) {
-        let byteSize = 0;
-        for (let i = 0; i < str.length; i++) {
-            const code = str.charCodeAt(i);
-            if (code <= 0x7f) {
-                byteSize += 1; // 1 byte for ASCII characters
-            }
-            else if (code <= 0x7ff) {
-                byteSize += 2; // 2 bytes for characters in the range 0x80-0x7FF
-            }
-            else if (code >= 0xd800 && code <= 0xdbff) {
-                // Surrogate pair (4 bytes)
-                byteSize += 4;
-                i++; // Skip the next code unit
-            }
-            else {
-                byteSize += 3; // 3 bytes for other characters in the range 0x800-0xFFFF
-            }
-        }
-        return byteSize;
     }
 }

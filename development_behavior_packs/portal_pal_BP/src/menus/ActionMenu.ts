@@ -1,7 +1,7 @@
 import { Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
 import { MenuManager } from '../MenuManager';
-import { Portal } from '../PortalService';
+import { Portal } from '../ReadWriteService';
 
 export class ActionMenu {
     private readonly menuManager: MenuManager;

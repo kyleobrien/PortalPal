@@ -1,7 +1,7 @@
 import { Player } from '@minecraft/server';
 import { ModalFormData, ModalFormResponse } from '@minecraft/server-ui';
 import { MenuManager } from '../MenuManager';
-import { Portal } from 'PortalService';
+import { Portal } from 'ReadWriteService';
 
 export class PropertiesMenu {
     private readonly menuManager: MenuManager;

@@ -1,6 +1,6 @@
 import { MessageFormResponse, MessageFormData } from '@minecraft/server-ui';
 import { MenuManager } from '../MenuManager';
-import { Portal } from '../PortalService';
+import { Portal } from '../ReadWriteService';
 
 export class ConfirmMenu {
     private readonly menuManager: MenuManager;

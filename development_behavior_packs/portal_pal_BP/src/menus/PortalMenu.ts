@@ -1,7 +1,7 @@
 import { Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
 import { MenuManager } from '../MenuManager';
-import { SavedData } from '../PortalService';
+import { SavedData } from '../ReadWriteService';
 import { Utilities } from 'Utilities';
 
 export class PortalMenu {
