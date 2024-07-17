@@ -1,4 +1,5 @@
 import { world } from '@minecraft/server';
+
 import { MenuManager } from './MenuManager';
 
 // DEBUG ONLY. DELETES ALL SAVED PORTALS.

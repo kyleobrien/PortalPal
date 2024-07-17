@@ -11,10 +11,8 @@ export class ConfirmMenu {
             .button1("Cancel")
             .button2("Delete");
         form.show(this.menuManager.you).then((response) => {
-            if (response.selection !== undefined) {
-                if (response.selection == 1) {
-                    this.menuManager.confirmMenuDelete(this.portal);
-                }
+            if ((response.selection !== undefined) && (response.selection === 1)) {
+                this.menuManager.confirmMenuDelete(this.portal);
             }
         });
     }

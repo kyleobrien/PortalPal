@@ -1,5 +1,6 @@
 import { Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
+
 import { MenuManager } from '../MenuManager';
 
 export class MainMenu {
