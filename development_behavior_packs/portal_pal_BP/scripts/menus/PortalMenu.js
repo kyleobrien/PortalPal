@@ -8,9 +8,8 @@ export class PortalMenu {
     }
     open() {
         let form = new ActionFormData().title('Available Portals');
-        // TODO: need to figure out all the button icons.
-        // FIXME: if we ever change to show players who are not logged in,
-        //        then we need to conditionally add these buttons.
+        // TODO: if we ever change to show players who are not logged in,
+        //       then we need to conditionally add these buttons.
         form.button("Current Location", "textures/items/diamond_helmet");
         form.button("Spawn Point", "textures/items/diamond_helmet");
         let buttonCount = 2;
@@ -25,20 +24,20 @@ export class PortalMenu {
         form.show(this.menuManager.you).then((response) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.menuManager.portalMenuTeleportToCurrentLocation(this.chosenPlayer);
+                    this.menuManager.portalMenuTeleportToCurrentLocationOfPlayer(this.chosenPlayer);
                 }
                 else if (response.selection == 1) {
-                    this.menuManager.portalMenuTeleportToSpawn(this.chosenPlayer);
+                    this.menuManager.portalMenuTeleportToSpawnOfPlayer(this.chosenPlayer);
                 }
                 else if ((response.selection == buttonCount - 1) &&
                     Utilities.arePlayersTheSame(this.menuManager.you, this.chosenPlayer)) {
                     this.menuManager.portalMenuAddNewPortal();
                 }
                 else {
-                    // FIXME: if we ever change to show players who are not logged in,
-                    //        then we can't always sutract by 2.
+                    // TODO: if we ever change to show players who are not logged in,
+                    //       then we can't always sutract by 2.
                     let portal = this.savedData.portals[response.selection - 2];
-                    this.menuManager.portalMenuSelected(portal, this.chosenPlayer);
+                    this.menuManager.portalMenuTeleportToPortal(portal, this.chosenPlayer);
                 }
             }
         });

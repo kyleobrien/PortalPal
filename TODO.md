@@ -14,6 +14,7 @@
 -   Finish handling all errors that I've punted on.
 -   Change to always show current players as well as those who are offline, but have saved portals.
 -   Add JSDoc support to everything.
+-   Get all the player messaging and sound playing into some class. Maybe a "You" class.
 
 ## Bugs
 
@@ -26,4 +27,3 @@
     -   Icons for all the buttons.
     -   Better PortalPal texture.
     -   Better behavior and texture pack artwork.
--   Code review and clean up.

@@ -102,7 +102,7 @@ export class ReadWriteService {
         return new Date().getTime().toString();
     }
 
-    private slimPortal(portal: Portal) {
+    private slimPortal(portal: Portal): void {
         portal.location.x = Math.floor(portal.location.x);
         portal.location.y = Math.floor(portal.location.y);
         portal.location.z = Math.floor(portal.location.z);

@@ -12,7 +12,7 @@ export class PropertiesMenu {
         this.existingPortal = existingPortal;
     }
 
-    public open() {
+    public open(): void {
         let title = "Add a Portal";
         if (this.existingPortal !== null) {
             title = "Edit Portal"
@@ -34,9 +34,9 @@ export class PropertiesMenu {
         form.show(this.menuManager.you).then((response: ModalFormResponse) => {
             if (!response.canceled && response.formValues) {
                 if (this.existingPortal) {
-                    this.menuManager.handlePropertiesSubmitForEdit(response.formValues, this.existingPortal);
+                    this.menuManager.propertiesMenuEditWithValues(response.formValues, this.existingPortal);
                 } else {
-                    this.menuManager.handlePropertiesSubmitForAdd(response.formValues);
+                    this.menuManager.propertiesMenuAddWithValues(response.formValues);
                 }
             }
         });

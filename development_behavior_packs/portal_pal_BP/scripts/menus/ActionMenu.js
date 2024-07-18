@@ -12,13 +12,13 @@ export class ActionMenu {
         form.show(this.menuManager.you).then((response) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.menuManager.actionMenuSelectedGoTo(this.portal);
+                    this.menuManager.actionMenuGoToPortal(this.portal);
                 }
                 else if (response.selection == 1) {
-                    this.menuManager.actionMenuEdit(this.portal);
+                    this.menuManager.actionMenuEditPortal(this.portal);
                 }
                 else if (response.selection == 2) {
-                    this.menuManager.actionMenuDelete(this.portal);
+                    this.menuManager.actionMenuDeletePortal(this.portal);
                 }
             }
         });

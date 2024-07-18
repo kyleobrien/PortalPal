@@ -13,11 +13,11 @@ export class MainMenu {
         form.show(this.menuManager.you).then((response) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.menuManager.mainMenuSelected(this.menuManager.you);
+                    this.menuManager.mainMenuSelectedPlayer(this.menuManager.you);
                 }
                 else {
                     let index = response.selection - 1;
-                    this.menuManager.mainMenuSelected(this.otherPlayers[index]);
+                    this.menuManager.mainMenuSelectedPlayer(this.otherPlayers[index]);
                 }
             }
         });

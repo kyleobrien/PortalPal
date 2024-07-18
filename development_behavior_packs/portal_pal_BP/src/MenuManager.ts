@@ -10,7 +10,7 @@ import { Teleport } from './Teleport';
 import { Utilities } from 'Utilities';
 
 export class MenuManager {
-    public you: Player;
+    public readonly you: Player;
 
     private readonly readWriteService: ReadWriteService;
     private readonly teleport: Teleport;
@@ -19,44 +19,40 @@ export class MenuManager {
         this.you = you;
 
         this.readWriteService = new ReadWriteService();
-        this.teleport = new Teleport(this.you);
+        this.teleport = new Teleport(you);
     }
 
-    public start() {
-        let mainMenu = new MainMenu(this, this.findAllOtherPlayersBut(this.you));
+    public start(): void {
+        let mainMenu = new MainMenu(this, this.findAllOtherPlayersButPlayer(this.you));
         mainMenu.open();
     }
 
-    /**************************************
-     ******* Handle Menu Selections *******
-     **************************************/
-
     // MAIN MENU
     
-    public mainMenuSelected(chosenPlayer: Player) {
+    public mainMenuSelectedPlayer(player: Player): void {
         let savedData;
 
-        if (Utilities.arePlayersTheSame(this.you, chosenPlayer)) {
-            savedData = this.readWriteService.fetchDataForPlayer(chosenPlayer, false);
+        if (Utilities.arePlayersTheSame(this.you, player)) {
+            savedData = this.readWriteService.fetchDataForPlayer(player, false);
         } else {
-            savedData = this.readWriteService.fetchDataForPlayer(chosenPlayer, true);
+            savedData = this.readWriteService.fetchDataForPlayer(player, true);
         }
 
-        let portalMenu = new PortalMenu(this, chosenPlayer, savedData);
+        let portalMenu = new PortalMenu(this, player, savedData);
         portalMenu.open();
     }
 
     // PORTAL MENU
 
-    public portalMenuTeleportToCurrentLocation(targetPlayer: Player) {
-        this.teleport.toLocationOfPlayer(targetPlayer);
+    public portalMenuTeleportToCurrentLocationOfPlayer(player: Player): void {
+        this.teleport.toLocationOfPlayer(player);
     }
 
-    public portalMenuTeleportToSpawn(targetPlayer: Player) {
-        this.teleport.toSpawnOfPlayer(targetPlayer);
+    public portalMenuTeleportToSpawnOfPlayer(player: Player): void {
+        this.teleport.toSpawnOfPlayer(player);
     }
 
-    public portalMenuSelected(portal: Portal, forPlayer: Player) {
+    public portalMenuTeleportToPortal(portal: Portal, forPlayer: Player): void {
         if (Utilities.arePlayersTheSame(this.you, forPlayer)) {
             let actionMenu = new ActionMenu(this, portal);
             actionMenu.open();
@@ -66,39 +62,30 @@ export class MenuManager {
         }
     }
 
-    public portalMenuAddNewPortal() {
+    public portalMenuAddNewPortal(): void {
         let propertiesMenu = new PropertiesMenu(this);
         propertiesMenu.open();
     }
 
     // ACTION MENU
 
-    public actionMenuSelectedGoTo(portal: Portal) {
+    public actionMenuGoToPortal(portal: Portal): void {
         this.teleport.toPortal(portal);
     }
 
-    public actionMenuEdit(portal: Portal) {
+    public actionMenuEditPortal(portal: Portal): void {
         let propertiesMenu = new PropertiesMenu(this, portal);
         propertiesMenu.open();
     }
     
-    public actionMenuDelete(portal: Portal) {
+    public actionMenuDeletePortal(portal: Portal): void {
         let confirmMenu = new ConfirmMenu(this, portal);
         confirmMenu.open();
     }
 
-    // CONFIRM MENU
+    // PROPERTIES MENU
 
-    public confirmMenuDelete(portal: Portal) {
-        let result = this.readWriteService.deletePortal(portal, this.you);
-        if (result) {
-            this.you.sendMessage(`Deleted the portal ${portal.name}`);
-        } else {
-            this.you.sendMessage(`There was a problem deleting the portal ${portal.name}`);
-        }
-    }
-
-    public handlePropertiesSubmitForAdd(formValues) {
+    public propertiesMenuAddWithValues(formValues): void {
         let portal = {
             "id": "",
             "name": formValues[0],
@@ -109,38 +96,41 @@ export class MenuManager {
         }
 
         let success = this.readWriteService.addPortal(portal, this.you);
-        
         if (success) {
             this.you.sendMessage(`Added ${portal.name} to your saved portals.`);
         } else {
             this.you.sendMessage(`There was a problem adding ${portal.name} to your saved portals.`);
         }
-
-        // TEST
-        // let saved = this.portalService.fetchDataFor(this.you);
-        // Logger.log(JSON.stringify(saved));
     }
 
-    public handlePropertiesSubmitForEdit(formValues, existingPortal) {
+    public propertiesMenuEditWithValues(formValues, existingPortal): void {
         existingPortal.name = formValues[0];
         existingPortal.color = formValues[1];
         existingPortal.private = formValues[2];
 
         let success = this.readWriteService.editPortal(existingPortal, this.you);
-
         if (success) {
-            this.you.sendMessage(`Updated "${existingPortal.name}" portal.`);
+            this.you.sendMessage(`Updated ${existingPortal.name} portal.`);
         } else {
             this.you.sendMessage(`There was a problem updating ${existingPortal.name} portal.`);
         }
     }
 
-    public findAllOtherPlayersBut(you: Player): Player[] {
-        let everyone = world.getAllPlayers();
-        let otherPlayers = everyone.filter((player) => player.id != you.id);
-        
-        otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
+    // CONFIRM MENU
 
-        return otherPlayers;
+    public confirmMenuDeletePortal(portal: Portal): void {
+        let result = this.readWriteService.deletePortal(portal, this.you);
+        if (result) {
+            this.you.sendMessage(`Deleted the portal ${portal.name}.`);
+        } else {
+            this.you.sendMessage(`There was a problem deleting the portal ${portal.name}.`);
+        }
+    }
+
+    public findAllOtherPlayersButPlayer(player: Player): Player[] {
+        let everyone = world.getAllPlayers();
+        let otherPlayers = everyone.filter((p) => p.id != player.id);
+        
+        return otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
     }
 }

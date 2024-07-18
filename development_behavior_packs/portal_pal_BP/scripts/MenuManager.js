@@ -11,35 +11,32 @@ export class MenuManager {
     constructor(you) {
         this.you = you;
         this.readWriteService = new ReadWriteService();
-        this.teleport = new Teleport(this.you);
+        this.teleport = new Teleport(you);
     }
     start() {
-        let mainMenu = new MainMenu(this, this.findAllOtherPlayersBut(this.you));
+        let mainMenu = new MainMenu(this, this.findAllOtherPlayersButPlayer(this.you));
         mainMenu.open();
     }
-    /**************************************
-     ******* Handle Menu Selections *******
-     **************************************/
     // MAIN MENU
-    mainMenuSelected(chosenPlayer) {
+    mainMenuSelectedPlayer(player) {
         let savedData;
-        if (Utilities.arePlayersTheSame(this.you, chosenPlayer)) {
-            savedData = this.readWriteService.fetchDataForPlayer(chosenPlayer, false);
+        if (Utilities.arePlayersTheSame(this.you, player)) {
+            savedData = this.readWriteService.fetchDataForPlayer(player, false);
         }
         else {
-            savedData = this.readWriteService.fetchDataForPlayer(chosenPlayer, true);
+            savedData = this.readWriteService.fetchDataForPlayer(player, true);
         }
-        let portalMenu = new PortalMenu(this, chosenPlayer, savedData);
+        let portalMenu = new PortalMenu(this, player, savedData);
         portalMenu.open();
     }
     // PORTAL MENU
-    portalMenuTeleportToCurrentLocation(targetPlayer) {
-        this.teleport.toLocationOfPlayer(targetPlayer);
+    portalMenuTeleportToCurrentLocationOfPlayer(player) {
+        this.teleport.toLocationOfPlayer(player);
     }
-    portalMenuTeleportToSpawn(targetPlayer) {
-        this.teleport.toSpawnOfPlayer(targetPlayer);
+    portalMenuTeleportToSpawnOfPlayer(player) {
+        this.teleport.toSpawnOfPlayer(player);
     }
-    portalMenuSelected(portal, forPlayer) {
+    portalMenuTeleportToPortal(portal, forPlayer) {
         if (Utilities.arePlayersTheSame(this.you, forPlayer)) {
             let actionMenu = new ActionMenu(this, portal);
             actionMenu.open();
@@ -53,28 +50,19 @@ export class MenuManager {
         propertiesMenu.open();
     }
     // ACTION MENU
-    actionMenuSelectedGoTo(portal) {
+    actionMenuGoToPortal(portal) {
         this.teleport.toPortal(portal);
     }
-    actionMenuEdit(portal) {
+    actionMenuEditPortal(portal) {
         let propertiesMenu = new PropertiesMenu(this, portal);
         propertiesMenu.open();
     }
-    actionMenuDelete(portal) {
+    actionMenuDeletePortal(portal) {
         let confirmMenu = new ConfirmMenu(this, portal);
         confirmMenu.open();
     }
-    // CONFIRM MENU
-    confirmMenuDelete(portal) {
-        let result = this.readWriteService.deletePortal(portal, this.you);
-        if (result) {
-            this.you.sendMessage(`Deleted the portal ${portal.name}`);
-        }
-        else {
-            this.you.sendMessage(`There was a problem deleting the portal ${portal.name}`);
-        }
-    }
-    handlePropertiesSubmitForAdd(formValues) {
+    // PROPERTIES MENU
+    propertiesMenuAddWithValues(formValues) {
         let portal = {
             "id": "",
             "name": formValues[0],
@@ -90,26 +78,32 @@ export class MenuManager {
         else {
             this.you.sendMessage(`There was a problem adding ${portal.name} to your saved portals.`);
         }
-        // TEST
-        // let saved = this.portalService.fetchDataFor(this.you);
-        // Logger.log(JSON.stringify(saved));
     }
-    handlePropertiesSubmitForEdit(formValues, existingPortal) {
+    propertiesMenuEditWithValues(formValues, existingPortal) {
         existingPortal.name = formValues[0];
         existingPortal.color = formValues[1];
         existingPortal.private = formValues[2];
         let success = this.readWriteService.editPortal(existingPortal, this.you);
         if (success) {
-            this.you.sendMessage(`Updated "${existingPortal.name}" portal.`);
+            this.you.sendMessage(`Updated ${existingPortal.name} portal.`);
         }
         else {
             this.you.sendMessage(`There was a problem updating ${existingPortal.name} portal.`);
         }
     }
-    findAllOtherPlayersBut(you) {
+    // CONFIRM MENU
+    confirmMenuDeletePortal(portal) {
+        let result = this.readWriteService.deletePortal(portal, this.you);
+        if (result) {
+            this.you.sendMessage(`Deleted the portal ${portal.name}.`);
+        }
+        else {
+            this.you.sendMessage(`There was a problem deleting the portal ${portal.name}.`);
+        }
+    }
+    findAllOtherPlayersButPlayer(player) {
         let everyone = world.getAllPlayers();
-        let otherPlayers = everyone.filter((player) => player.id != you.id);
-        otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
-        return otherPlayers;
+        let otherPlayers = everyone.filter((p) => p.id != player.id);
+        return otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
     }
 }

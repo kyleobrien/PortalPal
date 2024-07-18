@@ -12,7 +12,7 @@ export class ConfirmMenu {
         this.portal = portal;
     }
 
-    public open() {
+    public open(): void {
         let body= `Are you sure you want to delete the portal named "${this.portal.name}"? This action cannot be undone.`;
         let form = new MessageFormData().title("Delete Portal")
                                         .body(body)
@@ -21,7 +21,7 @@ export class ConfirmMenu {
         
         form.show(this.menuManager.you).then((response: MessageFormResponse) => {
             if ((response.selection !== undefined) && (response.selection === 1)) {
-                this.menuManager.confirmMenuDelete(this.portal);
+                this.menuManager.confirmMenuDeletePortal(this.portal);
             }
         });
     }

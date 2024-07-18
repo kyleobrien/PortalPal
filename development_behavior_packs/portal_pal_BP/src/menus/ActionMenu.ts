@@ -1,4 +1,3 @@
-import { Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
 
 import { MenuManager } from '../MenuManager';
@@ -13,7 +12,7 @@ export class ActionMenu {
         this.portal = portal;
     }
 
-    public open() {
+    public open(): void {
         let form = new ActionFormData().title('Actions');
         
         form.button("Go!", "textures/items/diamond_helmet");
@@ -23,11 +22,11 @@ export class ActionMenu {
         form.show(this.menuManager.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.menuManager.actionMenuSelectedGoTo(this.portal);
+                    this.menuManager.actionMenuGoToPortal(this.portal);
                 } else if (response.selection == 1) {
-                    this.menuManager.actionMenuEdit(this.portal);
+                    this.menuManager.actionMenuEditPortal(this.portal);
                 } else if (response.selection == 2) {
-                    this.menuManager.actionMenuDelete(this.portal);
+                    this.menuManager.actionMenuDeletePortal(this.portal);
                 }
             }
         });

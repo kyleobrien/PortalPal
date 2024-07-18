@@ -84,7 +84,7 @@ export class Teleport {
         }
     }
 
-    private sendMessage(message: string, isSuccess: boolean = true) {
+    private sendMessage(message: string, isSuccess: boolean = true): void {
         if (!isSuccess) {
             message = `ERROR: ${message}`;
         }
@@ -97,7 +97,7 @@ export class Teleport {
     // 1 - Make the success sound play for everyone, not just the player doing the teleporting.
     //     Dimension class has a function called playSound(...) that should work for this.
     // 2 - Try to get the ticks lower, so there isn't so much lag after the action and before a sound.
-    private playSound(player, success) {
+    private playSound(player, success): void {
         if (success) {
             system.runTimeout(() => {
                 player.playSound("portal_pal.teleport");
@@ -109,7 +109,7 @@ export class Teleport {
         }
     }
 
-    private possessiveName(name: string) {
+    private possessiveName(name: string): string {
         let posessiveName = name;
         let lastCharacter = name.charAt(name.length - 1);
 
