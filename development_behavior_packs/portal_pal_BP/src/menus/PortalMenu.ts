@@ -27,7 +27,37 @@ export class PortalMenu {
         let buttonCount = 2;
 
         for (const portal of this.savedData.portals) {
-            form.button(portal.name, "textures/items/diamond_helmet");
+            let iconPath = "textures/icons/portal_";
+            switch (portal.color) {
+                case 0:
+                    iconPath += "red";
+                    break;
+                case 1:
+                    iconPath += "orange";
+                    break;
+                case 2:
+                    iconPath += "yellow";
+                    break;
+                case 3:
+                    iconPath += "green";
+                    break;
+                case 4:
+                    iconPath += "blue";
+                    break;
+                case 5:
+                    iconPath += "brown";
+                    break;
+                case 6:
+                    iconPath += "pink";
+                    break;
+                case 7:
+                    iconPath += "purple";
+                    break;
+            }
+
+            iconPath += ".png";
+
+            form.button(portal.name, iconPath);
             buttonCount += 1;
         }
 
