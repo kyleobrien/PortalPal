@@ -21,8 +21,8 @@ export class PortalMenu {
         
         // TODO: if we ever change to show players who are not logged in,
         //       then we need to conditionally add these buttons.
-        form.button("Current Location", "textures/items/diamond_helmet");
-        form.button("Spawn Point", "textures/items/diamond_helmet");
+        form.button("Current Location", "textures/items/compass_item");
+        form.button("Spawn Point", "textures/items/bed_purple");
 
         let buttonCount = 2;
 
@@ -30,28 +30,28 @@ export class PortalMenu {
             let iconPath = "textures/icons/portal_";
             switch (portal.color) {
                 case 0:
-                    iconPath += "red";
+                    iconPath += "purple";
                     break;
                 case 1:
-                    iconPath += "orange";
+                    iconPath += "magenta";
                     break;
                 case 2:
-                    iconPath += "yellow";
+                    iconPath += "red";
                     break;
                 case 3:
-                    iconPath += "green";
+                    iconPath += "yellow";
                     break;
                 case 4:
-                    iconPath += "blue";
+                    iconPath += "green";
                     break;
                 case 5:
-                    iconPath += "brown";
+                    iconPath += "turquoise";
                     break;
                 case 6:
-                    iconPath += "pink";
+                    iconPath += "blue";
                     break;
-                case 7:
-                    iconPath += "purple";
+                default:
+                    iconPath += "blank";
                     break;
             }
 
@@ -62,7 +62,7 @@ export class PortalMenu {
         }
 
         if (Utilities.arePlayersTheSame(this.menuManager.you, this.chosenPlayer)) {
-            form.button("Add Portal", "textures/items/diamond_helmet");
+            form.button("Add Portal", "textures/icons/menu_plus");
             buttonCount += 1;
         }
 

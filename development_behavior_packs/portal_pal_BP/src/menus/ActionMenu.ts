@@ -15,9 +15,9 @@ export class ActionMenu {
     public open(): void {
         let form = new ActionFormData().title('Actions');
         
-        form.button("Go!", "textures/items/diamond_helmet");
-        form.button("Edit", "textures/items/diamond_helmet");
-        form.button("Delete", "textures/items/diamond_helmet");
+        form.button("Go!", "textures/items/fireworks");
+        form.button("Edit", "textures/items/book_written");
+        form.button("Delete", "textures/blocks/barrier");
       
         form.show(this.menuManager.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {

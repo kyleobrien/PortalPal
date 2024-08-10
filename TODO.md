@@ -27,5 +27,3 @@
     -   Icons for all the buttons.
     -   Better PortalPal texture.
     -   Better behavior and texture pack artwork.
-
-Purple

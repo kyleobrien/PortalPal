@@ -20,7 +20,7 @@ export class PropertiesMenu {
 
         let form = new ModalFormData().title(title);
 
-        const colors = ["Red", "Orange", "Yellow", "Green", "Blue", "Brown", "Pink", "Purple"];
+        const colors = ["Purple", "Magenta", "Red", "Yellow", "Green", "Turquoise", "Blue",];
         if (this.existingPortal !== null) {
             form.textField("Name", "", this.existingPortal.name);
             form.dropdown("Icon Color", colors, this.existingPortal.color);
