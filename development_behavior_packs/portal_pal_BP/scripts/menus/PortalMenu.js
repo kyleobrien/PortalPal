@@ -1,4 +1,5 @@
 import { ActionFormData } from '@minecraft/server-ui';
+import { PortalColors } from '../ReadWriteService';
 import { Utilities } from 'Utilities';
 export class PortalMenu {
     constructor(menuManager, chosenPlayer, savedData) {
@@ -14,34 +15,7 @@ export class PortalMenu {
         form.button("Spawn Point", "textures/items/bed_purple");
         let buttonCount = 2;
         for (const portal of this.savedData.portals) {
-            let iconPath = "textures/icons/portal_";
-            switch (portal.color) {
-                case 0:
-                    iconPath += "purple";
-                    break;
-                case 1:
-                    iconPath += "magenta";
-                    break;
-                case 2:
-                    iconPath += "red";
-                    break;
-                case 3:
-                    iconPath += "yellow";
-                    break;
-                case 4:
-                    iconPath += "green";
-                    break;
-                case 5:
-                    iconPath += "turquoise";
-                    break;
-                case 6:
-                    iconPath += "blue";
-                    break;
-                default:
-                    iconPath += "blank";
-                    break;
-            }
-            iconPath += ".png";
+            let iconPath = `textures/icons/portal_${PortalColors[portal.color]}.png`;
             form.button(portal.name, iconPath);
             buttonCount += 1;
         }

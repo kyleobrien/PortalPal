@@ -1,4 +1,5 @@
 import { ActionFormData } from '@minecraft/server-ui';
+import { PortalColors } from '../ReadWriteService';
 export class ActionMenu {
     constructor(menuManager, portal) {
         this.menuManager = menuManager;
@@ -6,7 +7,8 @@ export class ActionMenu {
     }
     open() {
         let form = new ActionFormData().title('Actions');
-        form.button("Go!", "textures/items/fireworks");
+        let iconPath = `textures/icons/portal_${PortalColors[this.portal.color]}.png`;
+        form.button("Go!", iconPath);
         form.button("Edit", "textures/items/book_written");
         form.button("Delete", "textures/blocks/barrier");
         form.show(this.menuManager.you).then((response) => {

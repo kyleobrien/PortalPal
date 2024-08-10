@@ -11,6 +11,16 @@ export interface Portal {
     dimension: string;
 }
 
+export enum PortalColors {
+    purple = 0,
+    magenta = 1,
+    red = 2,
+    yellow = 3,
+    green = 4,
+    turquoise = 5,
+    blue = 6
+}
+
 export interface SavedData {
     player: string;
     portals: Portal[];

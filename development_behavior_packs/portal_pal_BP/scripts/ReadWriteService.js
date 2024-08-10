@@ -1,4 +1,14 @@
 import { world } from '@minecraft/server';
+export var PortalColors;
+(function (PortalColors) {
+    PortalColors[PortalColors["purple"] = 0] = "purple";
+    PortalColors[PortalColors["magenta"] = 1] = "magenta";
+    PortalColors[PortalColors["red"] = 2] = "red";
+    PortalColors[PortalColors["yellow"] = 3] = "yellow";
+    PortalColors[PortalColors["green"] = 4] = "green";
+    PortalColors[PortalColors["turquoise"] = 5] = "turquoise";
+    PortalColors[PortalColors["blue"] = 6] = "blue";
+})(PortalColors || (PortalColors = {}));
 export class ReadWriteService {
     addPortal(portal, player) {
         this.slimPortal(portal);
