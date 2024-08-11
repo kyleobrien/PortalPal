@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "module": "ES2020",
+      "target": "ES2021",
+      "moduleResolution": "Node",
+      "allowSyntheticDefaultImports": true,
+      "baseUrl": "./development_behavior_packs/portal_pal_BP/src",
+      "rootDir": "./development_behavior_packs/portal_pal_BP/src",
+      "outDir": "./development_behavior_packs/portal_pal_BP/scripts"
+    }
+  }
