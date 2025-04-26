@@ -1,0 +1,30 @@
+{
+    "format_version": "1.20.0",
+    "minecraft:recipe_shaped": {
+        "description": {
+            "identifier": "pp:portal_pal"
+            },
+        "tags": ["crafting_table"],
+        "assume_symmetry": false,
+        "pattern": [
+            "G",
+            "R",
+            "I"
+            ],
+        "key": {
+            "G": {
+                "item": "minecraft:glass_pane"
+            },
+            "R": {
+                "item": "minecraft:redstone"
+            },
+            "I": {
+                "item": "minecraft:iron_ingot"
+            }
+        },
+        "result": {
+            "item": "pp:portal_pal",
+            "count": 1
+        }
+    }
+}
