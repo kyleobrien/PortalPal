@@ -1,10 +1,14 @@
-behavior_packs
-development_skin_packs
-minecraftpe
-minecraftWorlds
-node_modules
-resource_packs
-skin_packs
-world_templates
+# folders
+behavior_packs/
+custom_skins/
+development_skin_packs/
+minecraftpe/
+minecraftWorlds/
+node_modules/
+resource_packs/
+skin_packs/
+world_templates/
+
+# files
 ud2991172460.dat
 ud3955869284.dat
