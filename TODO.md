@@ -29,5 +29,4 @@
 
 -   Finish handling all errors that I've punted on.
 -   Add JSDoc support to everything.
--   Add an open source license.
 -   Move this into the README.
