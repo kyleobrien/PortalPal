@@ -13,7 +13,7 @@ export class MenuManager {
         this.readWriteService = new ReadWriteService();
         this.teleport = new Teleport(you);
     }
-    start() {
+    openMainMenu() {
         let mainMenu = new MainMenu(this, this.findAllOtherPlayersButPlayer(this.you));
         mainMenu.open();
     }

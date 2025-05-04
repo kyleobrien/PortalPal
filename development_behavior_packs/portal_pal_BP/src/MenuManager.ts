@@ -1,11 +1,10 @@
-import { world, Player } from '@minecraft/server';
-
+import { Player, world } from '@minecraft/server';
 import { ActionMenu } from './menus/ActionMenu';
 import { ConfirmMenu } from './menus/ConfirmMenu';
 import { MainMenu } from './menus/MainMenu';
 import { PortalMenu } from './menus/PortalMenu';
 import { PropertiesMenu } from './menus/PropertiesMenu';
-import { ReadWriteService, Portal } from './ReadWriteService';
+import { Portal, ReadWriteService } from './ReadWriteService';
 import { Teleport } from './Teleport';
 import { Utilities } from 'Utilities';
 
@@ -22,7 +21,7 @@ export class MenuManager {
         this.teleport = new Teleport(you);
     }
 
-    public start(): void {
+    public openMainMenu(): void {
         let mainMenu = new MainMenu(this, this.findAllOtherPlayersButPlayer(this.you));
         mainMenu.open();
     }
