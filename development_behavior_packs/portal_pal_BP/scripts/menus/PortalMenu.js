@@ -19,11 +19,11 @@ export class PortalMenu {
             form.button(portal.name, iconPath);
             buttonCount += 1;
         }
-        if (Utilities.arePlayersTheSame(this.menuManager.you, this.chosenPlayer)) {
+        if (Utilities.arePlayersTheSame(this.menuManager.players.you, this.chosenPlayer)) {
             form.button("Add Portal", "textures/icons/menu_plus");
             buttonCount += 1;
         }
-        form.show(this.menuManager.you).then((response) => {
+        form.show(this.menuManager.players.you).then((response) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
                     this.menuManager.portalMenuTeleportToCurrentLocationOfPlayer(this.chosenPlayer);
@@ -32,7 +32,7 @@ export class PortalMenu {
                     this.menuManager.portalMenuTeleportToSpawnOfPlayer(this.chosenPlayer);
                 }
                 else if ((response.selection == buttonCount - 1) &&
-                    Utilities.arePlayersTheSame(this.menuManager.you, this.chosenPlayer)) {
+                    Utilities.arePlayersTheSame(this.menuManager.players.you, this.chosenPlayer)) {
                     this.menuManager.portalMenuAddNewPortal();
                 }
                 else {

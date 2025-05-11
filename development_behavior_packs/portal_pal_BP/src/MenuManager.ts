@@ -2,6 +2,7 @@ import { Player, world } from '@minecraft/server';
 import { ActionMenu } from './menus/ActionMenu';
 import { ConfirmMenu } from './menus/ConfirmMenu';
 import { MainMenu } from './menus/MainMenu';
+import { Players } from './Players';
 import { PortalMenu } from './menus/PortalMenu';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { Portal, ReadWriteService } from './ReadWriteService';
@@ -9,20 +10,19 @@ import { Teleport } from './Teleport';
 import { Utilities } from 'Utilities';
 
 export class MenuManager {
-    public readonly you: Player;
+    public readonly players: Players;
 
     private readonly readWriteService: ReadWriteService;
     private readonly teleport: Teleport;
 
     constructor(you: Player) {
-        this.you = you;
-
+        this.players = new Players(you, world.getAllPlayers());
         this.readWriteService = new ReadWriteService();
         this.teleport = new Teleport(you);
     }
 
     public openMainMenu(): void {
-        let mainMenu = new MainMenu(this, this.findAllOtherPlayersButPlayer(this.you));
+        let mainMenu = new MainMenu(this, this.players.otherPlayers);
         mainMenu.open();
     }
 
@@ -31,7 +31,7 @@ export class MenuManager {
     public mainMenuSelectedPlayer(player: Player): void {
         let savedData;
 
-        if (Utilities.arePlayersTheSame(this.you, player)) {
+        if (Utilities.arePlayersTheSame(this.players.you, player)) {
             savedData = this.readWriteService.fetchDataForPlayer(player, false);
         } else {
             savedData = this.readWriteService.fetchDataForPlayer(player, true);
@@ -52,7 +52,7 @@ export class MenuManager {
     }
 
     public portalMenuTeleportToPortal(portal: Portal, forPlayer: Player): void {
-        if (Utilities.arePlayersTheSame(this.you, forPlayer)) {
+        if (Utilities.arePlayersTheSame(this.players.you, forPlayer)) {
             let actionMenu = new ActionMenu(this, portal);
             actionMenu.open();
 
@@ -90,15 +90,15 @@ export class MenuManager {
             "name": formValues[0],
             "color": formValues[1],
             "private": formValues[2],
-            "location": this.you.location,
-            "dimension": this.you.dimension.id.split(":")[1]
+            "location": this.players.you.location,
+            "dimension": this.players.you.dimension.id.split(":")[1]
         }
 
-        let success = this.readWriteService.addPortal(portal, this.you);
+        let success = this.readWriteService.addPortal(portal, this.players.you);
         if (success) {
-            this.you.sendMessage(`Added ${portal.name} to your saved portals.`);
+            this.players.you.sendMessage(`Added ${portal.name} to your saved portals.`);
         } else {
-            this.you.sendMessage(`There was a problem adding ${portal.name} to your saved portals.`);
+            this.players.you.sendMessage(`There was a problem adding ${portal.name} to your saved portals.`);
         }
     }
 
@@ -107,29 +107,22 @@ export class MenuManager {
         existingPortal.color = formValues[1];
         existingPortal.private = formValues[2];
 
-        let success = this.readWriteService.editPortal(existingPortal, this.you);
+        let success = this.readWriteService.editPortal(existingPortal, this.players.you);
         if (success) {
-            this.you.sendMessage(`Updated ${existingPortal.name} portal.`);
+            this.players.you.sendMessage(`Updated ${existingPortal.name} portal.`);
         } else {
-            this.you.sendMessage(`There was a problem updating ${existingPortal.name} portal.`);
+            this.players.you.sendMessage(`There was a problem updating ${existingPortal.name} portal.`);
         }
     }
 
     // CONFIRM MENU
 
     public confirmMenuDeletePortal(portal: Portal): void {
-        let result = this.readWriteService.deletePortal(portal, this.you);
+        let result = this.readWriteService.deletePortal(portal, this.players.you);
         if (result) {
-            this.you.sendMessage(`Deleted the portal ${portal.name}.`);
+            this.players.you.sendMessage(`Deleted the portal ${portal.name}.`);
         } else {
-            this.you.sendMessage(`There was a problem deleting the portal ${portal.name}.`);
+            this.players.you.sendMessage(`There was a problem deleting the portal ${portal.name}.`);
         }
-    }
-
-    public findAllOtherPlayersButPlayer(player: Player): Player[] {
-        let everyone = world.getAllPlayers();
-        let otherPlayers = everyone.filter((p) => p.id != player.id);
-        
-        return otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
     }
 }

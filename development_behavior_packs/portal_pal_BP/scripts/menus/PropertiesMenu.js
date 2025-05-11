@@ -21,7 +21,7 @@ export class PropertiesMenu {
             form.dropdown("Icon Color", colors, 0);
             form.toggle("Private", false);
         }
-        form.show(this.menuManager.you).then((response) => {
+        form.show(this.menuManager.players.you).then((response) => {
             if (!response.canceled && response.formValues) {
                 if (this.existingPortal) {
                     this.menuManager.propertiesMenuEditWithValues(response.formValues, this.existingPortal);

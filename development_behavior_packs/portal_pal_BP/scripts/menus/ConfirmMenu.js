@@ -10,7 +10,7 @@ export class ConfirmMenu {
             .body(body)
             .button1("Cancel")
             .button2("Delete");
-        form.show(this.menuManager.you).then((response) => {
+        form.show(this.menuManager.players.you).then((response) => {
             if ((response.selection !== undefined) && (response.selection === 1)) {
                 this.menuManager.confirmMenuDeletePortal(this.portal);
             }

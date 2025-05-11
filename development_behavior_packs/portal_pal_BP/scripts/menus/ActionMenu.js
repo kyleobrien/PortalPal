@@ -11,7 +11,7 @@ export class ActionMenu {
         form.button("Go!", iconPath);
         form.button("Edit", "textures/items/book_written");
         form.button("Delete", "textures/blocks/barrier");
-        form.show(this.menuManager.you).then((response) => {
+        form.show(this.menuManager.players.you).then((response) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
                     this.menuManager.actionMenuGoToPortal(this.portal);

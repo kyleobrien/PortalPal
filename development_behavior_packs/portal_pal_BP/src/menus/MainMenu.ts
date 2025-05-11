@@ -21,10 +21,10 @@ export class MainMenu {
             form.button(player.name, "textures/items/gold_helmet");
         }
 
-        form.show(this.menuManager.you).then((response: ActionFormResponse) => {
+        form.show(this.menuManager.players.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.menuManager.mainMenuSelectedPlayer(this.menuManager.you);
+                    this.menuManager.mainMenuSelectedPlayer(this.menuManager.players.you);
                 } else {
                     let index = response.selection - 1;
                     this.menuManager.mainMenuSelectedPlayer(this.otherPlayers[index]);

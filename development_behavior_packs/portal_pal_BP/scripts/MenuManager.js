@@ -2,6 +2,7 @@ import { world } from '@minecraft/server';
 import { ActionMenu } from './menus/ActionMenu';
 import { ConfirmMenu } from './menus/ConfirmMenu';
 import { MainMenu } from './menus/MainMenu';
+import { Players } from './Players';
 import { PortalMenu } from './menus/PortalMenu';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { ReadWriteService } from './ReadWriteService';
@@ -9,18 +10,18 @@ import { Teleport } from './Teleport';
 import { Utilities } from 'Utilities';
 export class MenuManager {
     constructor(you) {
-        this.you = you;
+        this.players = new Players(you, world.getAllPlayers());
         this.readWriteService = new ReadWriteService();
         this.teleport = new Teleport(you);
     }
     openMainMenu() {
-        let mainMenu = new MainMenu(this, this.findAllOtherPlayersButPlayer(this.you));
+        let mainMenu = new MainMenu(this, this.players.otherPlayers);
         mainMenu.open();
     }
     // MAIN MENU
     mainMenuSelectedPlayer(player) {
         let savedData;
-        if (Utilities.arePlayersTheSame(this.you, player)) {
+        if (Utilities.arePlayersTheSame(this.players.you, player)) {
             savedData = this.readWriteService.fetchDataForPlayer(player, false);
         }
         else {
@@ -37,7 +38,7 @@ export class MenuManager {
         this.teleport.toSpawnOfPlayer(player);
     }
     portalMenuTeleportToPortal(portal, forPlayer) {
-        if (Utilities.arePlayersTheSame(this.you, forPlayer)) {
+        if (Utilities.arePlayersTheSame(this.players.you, forPlayer)) {
             let actionMenu = new ActionMenu(this, portal);
             actionMenu.open();
         }
@@ -68,42 +69,37 @@ export class MenuManager {
             "name": formValues[0],
             "color": formValues[1],
             "private": formValues[2],
-            "location": this.you.location,
-            "dimension": this.you.dimension.id.split(":")[1]
+            "location": this.players.you.location,
+            "dimension": this.players.you.dimension.id.split(":")[1]
         };
-        let success = this.readWriteService.addPortal(portal, this.you);
+        let success = this.readWriteService.addPortal(portal, this.players.you);
         if (success) {
-            this.you.sendMessage(`Added ${portal.name} to your saved portals.`);
+            this.players.you.sendMessage(`Added ${portal.name} to your saved portals.`);
         }
         else {
-            this.you.sendMessage(`There was a problem adding ${portal.name} to your saved portals.`);
+            this.players.you.sendMessage(`There was a problem adding ${portal.name} to your saved portals.`);
         }
     }
     propertiesMenuEditWithValues(formValues, existingPortal) {
         existingPortal.name = formValues[0];
         existingPortal.color = formValues[1];
         existingPortal.private = formValues[2];
-        let success = this.readWriteService.editPortal(existingPortal, this.you);
+        let success = this.readWriteService.editPortal(existingPortal, this.players.you);
         if (success) {
-            this.you.sendMessage(`Updated ${existingPortal.name} portal.`);
+            this.players.you.sendMessage(`Updated ${existingPortal.name} portal.`);
         }
         else {
-            this.you.sendMessage(`There was a problem updating ${existingPortal.name} portal.`);
+            this.players.you.sendMessage(`There was a problem updating ${existingPortal.name} portal.`);
         }
     }
     // CONFIRM MENU
     confirmMenuDeletePortal(portal) {
-        let result = this.readWriteService.deletePortal(portal, this.you);
+        let result = this.readWriteService.deletePortal(portal, this.players.you);
         if (result) {
-            this.you.sendMessage(`Deleted the portal ${portal.name}.`);
+            this.players.you.sendMessage(`Deleted the portal ${portal.name}.`);
         }
         else {
-            this.you.sendMessage(`There was a problem deleting the portal ${portal.name}.`);
+            this.players.you.sendMessage(`There was a problem deleting the portal ${portal.name}.`);
         }
-    }
-    findAllOtherPlayersButPlayer(player) {
-        let everyone = world.getAllPlayers();
-        let otherPlayers = everyone.filter((p) => p.id != player.id);
-        return otherPlayers.sort((a, b) => a.name.localeCompare(b.name));
     }
 }

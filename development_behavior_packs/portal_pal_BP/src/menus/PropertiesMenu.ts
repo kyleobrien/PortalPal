@@ -31,7 +31,7 @@ export class PropertiesMenu {
             form.toggle("Private", false);
         }
         
-        form.show(this.menuManager.you).then((response: ModalFormResponse) => {
+        form.show(this.menuManager.players.you).then((response: ModalFormResponse) => {
             if (!response.canceled && response.formValues) {
                 if (this.existingPortal) {
                     this.menuManager.propertiesMenuEditWithValues(response.formValues, this.existingPortal);

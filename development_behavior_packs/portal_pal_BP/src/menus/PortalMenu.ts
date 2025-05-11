@@ -33,19 +33,19 @@ export class PortalMenu {
             buttonCount += 1;
         }
 
-        if (Utilities.arePlayersTheSame(this.menuManager.you, this.chosenPlayer)) {
+        if (Utilities.arePlayersTheSame(this.menuManager.players.you, this.chosenPlayer)) {
             form.button("Add Portal", "textures/icons/menu_plus");
             buttonCount += 1;
         }
 
-        form.show(this.menuManager.you).then((response: ActionFormResponse) => {
+        form.show(this.menuManager.players.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
                     this.menuManager.portalMenuTeleportToCurrentLocationOfPlayer(this.chosenPlayer);
                 } else if (response.selection == 1) {
                     this.menuManager.portalMenuTeleportToSpawnOfPlayer(this.chosenPlayer);
                 } else if ((response.selection == buttonCount - 1 ) &&
-                           Utilities.arePlayersTheSame(this.menuManager.you, this.chosenPlayer)) {
+                           Utilities.arePlayersTheSame(this.menuManager.players.you, this.chosenPlayer)) {
                     this.menuManager.portalMenuAddNewPortal();
                 } else {
                     // TODO: if we ever change to show players who are not logged in,

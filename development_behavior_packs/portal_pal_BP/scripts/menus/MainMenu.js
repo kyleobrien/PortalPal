@@ -10,10 +10,10 @@ export class MainMenu {
         for (const player of this.otherPlayers) {
             form.button(player.name, "textures/items/gold_helmet");
         }
-        form.show(this.menuManager.you).then((response) => {
+        form.show(this.menuManager.players.you).then((response) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.menuManager.mainMenuSelectedPlayer(this.menuManager.you);
+                    this.menuManager.mainMenuSelectedPlayer(this.menuManager.players.you);
                 }
                 else {
                     let index = response.selection - 1;

@@ -20,7 +20,7 @@ export class ActionMenu {
         form.button("Edit", "textures/items/book_written");
         form.button("Delete", "textures/blocks/barrier");
       
-        form.show(this.menuManager.you).then((response: ActionFormResponse) => {
+        form.show(this.menuManager.players.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
                     this.menuManager.actionMenuGoToPortal(this.portal);
