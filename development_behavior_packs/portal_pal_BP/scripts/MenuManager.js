@@ -7,7 +7,7 @@ import { PortalMenu } from './menus/PortalMenu';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { ReadWriteService } from './ReadWriteService';
 import { Teleport } from './Teleport';
-import { Utilities } from 'Utilities';
+import { Utilities } from './Utilities';
 export class MenuManager {
     constructor(you) {
         this.players = new Players(you, world.getAllPlayers());

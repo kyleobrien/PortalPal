@@ -7,11 +7,10 @@ import { PortalMenu } from './menus/PortalMenu';
 import { PropertiesMenu } from './menus/PropertiesMenu';
 import { Portal, ReadWriteService } from './ReadWriteService';
 import { Teleport } from './Teleport';
-import { Utilities } from 'Utilities';
+import { Utilities } from './Utilities';
 
 export class MenuManager {
     public readonly players: Players;
-
     private readonly readWriteService: ReadWriteService;
     private readonly teleport: Teleport;
 
