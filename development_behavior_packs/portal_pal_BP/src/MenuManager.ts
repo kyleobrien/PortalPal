@@ -20,12 +20,15 @@ export class MenuManager {
         this.teleport = new Teleport(you);
     }
 
-    public openMainMenu(): void {
-        let mainMenu = new MainMenu(this, this.players.otherPlayers);
+    /**
+     * The main entry point for the menu manager.
+     */
+    public init(): void {
+        let mainMenu = new MainMenu(this, this.players);
         mainMenu.open();
     }
 
-    // MAIN MENU
+    // #region MAIN MENU
     
     public mainMenuSelectedPlayer(player: Player): void {
         let savedData;
@@ -39,6 +42,8 @@ export class MenuManager {
         let portalMenu = new PortalMenu(this, player, savedData);
         portalMenu.open();
     }
+
+    // #endregion
 
     // PORTAL MENU
 

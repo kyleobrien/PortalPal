@@ -14,11 +14,14 @@ export class MenuManager {
         this.readWriteService = new ReadWriteService();
         this.teleport = new Teleport(you);
     }
-    openMainMenu() {
-        let mainMenu = new MainMenu(this, this.players.otherPlayers);
+    /**
+     * The main entry point for the menu manager.
+     */
+    init() {
+        let mainMenu = new MainMenu(this, this.players);
         mainMenu.open();
     }
-    // MAIN MENU
+    // #region MAIN MENU
     mainMenuSelectedPlayer(player) {
         let savedData;
         if (Utilities.arePlayersTheSame(this.players.you, player)) {
@@ -30,6 +33,7 @@ export class MenuManager {
         let portalMenu = new PortalMenu(this, player, savedData);
         portalMenu.open();
     }
+    // #endregion
     // PORTAL MENU
     portalMenuTeleportToCurrentLocationOfPlayer(player) {
         this.teleport.toLocationOfPlayer(player);
