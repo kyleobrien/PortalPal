@@ -22,15 +22,19 @@ export class MenuManager {
         mainMenu.open();
     }
     // #region MAIN MENU
-    mainMenuSelectedPlayer(player) {
+    /**
+     * Handle the button selection in the main menu.
+     * @param player The player that was selected.
+     */
+    mainMenuSelectedPlayer(selectedPlayer) {
         let savedData;
-        if (Utilities.arePlayersTheSame(this.players.you, player)) {
-            savedData = this.readWriteService.fetchDataForPlayer(player, false);
+        if (Utilities.arePlayersTheSame(this.players.you, selectedPlayer)) {
+            savedData = this.readWriteService.fetchDataForPlayer(selectedPlayer, false);
         }
         else {
-            savedData = this.readWriteService.fetchDataForPlayer(player, true);
+            savedData = this.readWriteService.fetchDataForPlayer(selectedPlayer, true);
         }
-        let portalMenu = new PortalMenu(this, player, savedData);
+        let portalMenu = new PortalMenu(this, selectedPlayer, savedData);
         portalMenu.open();
     }
     // #endregion

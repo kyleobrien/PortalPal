@@ -1,6 +1,6 @@
 import { ActionFormData } from '@minecraft/server-ui';
 import { PortalColors } from '../ReadWriteService';
-import { Utilities } from 'Utilities';
+import { Utilities } from '../Utilities';
 export class PortalMenu {
     constructor(menuManager, chosenPlayer, savedData) {
         this.menuManager = menuManager;

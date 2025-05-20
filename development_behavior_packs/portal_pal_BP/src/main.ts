@@ -3,7 +3,8 @@ import { MenuManager } from './MenuManager';
 
 world.afterEvents.itemUse.subscribe(event => {
     if (event.itemStack.typeId === "pp:portal_pal") {
-        (new MenuManager(event.source)).init();
+        let menuManager = new MenuManager(event.source);
+        menuManager.init();
     }
 });
 

@@ -5,7 +5,7 @@ import { MainMenu } from './menus/MainMenu';
 import { Players } from './Players';
 import { PortalMenu } from './menus/PortalMenu';
 import { PropertiesMenu } from './menus/PropertiesMenu';
-import { Portal, ReadWriteService } from './ReadWriteService';
+import { Portal, ReadWriteService, SavedData } from './ReadWriteService';
 import { Teleport } from './Teleport';
 import { Utilities } from './Utilities';
 
@@ -30,16 +30,20 @@ export class MenuManager {
 
     // #region MAIN MENU
     
-    public mainMenuSelectedPlayer(player: Player): void {
-        let savedData;
+    /**
+     * Handle the button selection in the main menu.
+     * @param player The player that was selected.
+     */
+    public mainMenuSelectedPlayer(selectedPlayer: Player): void {
+        let savedData: SavedData;
 
-        if (Utilities.arePlayersTheSame(this.players.you, player)) {
-            savedData = this.readWriteService.fetchDataForPlayer(player, false);
+        if (Utilities.arePlayersTheSame(this.players.you, selectedPlayer)) {
+            savedData = this.readWriteService.fetchDataForPlayer(selectedPlayer, false);
         } else {
-            savedData = this.readWriteService.fetchDataForPlayer(player, true);
+            savedData = this.readWriteService.fetchDataForPlayer(selectedPlayer, true);
         }
 
-        let portalMenu = new PortalMenu(this, player, savedData);
+        let portalMenu = new PortalMenu(this, selectedPlayer, savedData);
         portalMenu.open();
     }
 

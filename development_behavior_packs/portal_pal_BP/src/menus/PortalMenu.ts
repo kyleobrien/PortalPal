@@ -1,10 +1,8 @@
-import { Player } from '@minecraft/server';
 import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
-
+import { Player } from '@minecraft/server';
 import { MenuManager } from '../MenuManager';
-import { PortalColors } from '../ReadWriteService';
-import { SavedData } from '../ReadWriteService';
-import { Utilities } from 'Utilities';
+import { PortalColors, SavedData } from '../ReadWriteService';
+import { Utilities } from '../Utilities';
 
 export class PortalMenu {
     private readonly menuManager: MenuManager;
