@@ -20,3 +20,7 @@
 -   Finish handling all errors that I've punted on.
 -   Add JSDoc support to everything.
 -   Lint the code.
+-   Add to the README:
+    -   Take some screenshots.
+    -   Add some explanation.
+    -   Add command for giving the item to yourself

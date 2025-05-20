@@ -22,20 +22,19 @@ export class MainMenu {
      * The main menu allows the user to select a player whose portals they want to view.
      */
     public open(): void {
-        let form = new ActionFormData().title('PortalPal');
-        
+        const form = new ActionFormData().title('PortalPal');
         form.button("Your Portals", "textures/items/diamond_helmet");
 
         for (const player of this.players.otherPlayers) {
             form.button(player.name, "textures/items/gold_helmet");
         }
 
-        form.show(this.delegate.players.you).then((response: ActionFormResponse) => {
+        form.show(this.players.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
-                    this.delegate.mainMenuSelectedPlayer(this.delegate.players.you);
+                    this.delegate.mainMenuSelectedPlayer(this.players.you);
                 } else {
-                    let index = response.selection - 1;
+                    const index = response.selection - 1; // Offset by 1 for the "Your Portals" button.
                     this.delegate.mainMenuSelectedPlayer(this.players.otherPlayers[index]);
                 }
             }

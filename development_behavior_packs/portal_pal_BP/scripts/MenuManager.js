@@ -34,7 +34,7 @@ export class MenuManager {
         else {
             savedData = this.readWriteService.fetchDataForPlayer(selectedPlayer, true);
         }
-        let portalMenu = new PortalMenu(this, selectedPlayer, savedData);
+        let portalMenu = new PortalMenu(this, this.players, selectedPlayer, savedData);
         portalMenu.open();
     }
     // #endregion
