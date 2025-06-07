@@ -6,7 +6,7 @@ world.afterEvents.itemUse.subscribe(event => {
         menuManager.init();
     }
 });
-// DEBUG ONLY. UNCOMMENT, REBUILD, AND OPEN WORLD TO DELETE ALL SAVED PORTALS.
+// BELOW IS FOR DEBUG ONLY. UNCOMMENT, REBUILD, AND OPEN WORLD TO DELETE ALL SAVED PORTALS.
 /*
 world.afterEvents.worldInitialize.subscribe(event => {
     world.clearDynamicProperties();

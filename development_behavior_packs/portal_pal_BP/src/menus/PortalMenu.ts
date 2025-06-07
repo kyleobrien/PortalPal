@@ -7,7 +7,7 @@ import { Utilities } from '../Utilities';
 
 export class PortalMenu {
     private readonly delegate: MenuManager;
-    private readonly players: Players;
+    private readonly you: Player;
     private readonly chosenPlayer: Player;
     private readonly savedData: SavedData;
     
@@ -15,13 +15,13 @@ export class PortalMenu {
      * Creates a portal menu.
      * @constructor
      * @param delegate - A MenuManager instance that handles button selection.
-     * @param players - A Players instance that contains all player information.
+     * @param you - A Player instance that represents your player.
      * @param chosenPlayer - A player instance that the user has selected on the main menu.
      * @param savedData - A SavedData instance that contains the portals for the chosen player.
      */
-    constructor(delegate: MenuManager, players: Players, chosenPlayer: Player, savedData: SavedData) {
+    constructor(delegate: MenuManager, you: Player, chosenPlayer: Player, savedData: SavedData) {
         this.delegate = delegate;
-        this.players = players;
+        this.you = you;
         this.chosenPlayer = chosenPlayer;
         this.savedData = savedData;
     }
@@ -44,18 +44,18 @@ export class PortalMenu {
             buttonCount += 1;
         }
 
-        if (Utilities.arePlayersTheSame(this.players.you, this.chosenPlayer)) {
+        if (Utilities.arePlayersTheSame(this.you, this.chosenPlayer)) {
             form.button("Add Portal", "textures/icons/menu_plus");
             buttonCount += 1;
         }
 
-        form.show(this.players.you).then((response: ActionFormResponse) => {
+        form.show(this.you).then((response: ActionFormResponse) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
                     this.delegate.portalMenuTeleportToCurrentLocationOfPlayer(this.chosenPlayer);
                 } else if (response.selection == 1) {
                     this.delegate.portalMenuTeleportToSpawnOfPlayer(this.chosenPlayer);
-                } else if (Utilities.arePlayersTheSame(this.players.you, this.chosenPlayer) && (response.selection == buttonCount - 1)) {
+                } else if (Utilities.arePlayersTheSame(this.you, this.chosenPlayer) && (response.selection == buttonCount - 1)) {
                     this.delegate.portalMenuAddNewPortal();
                 } else {
                     const portal = this.savedData.portals[response.selection - 2]; // Offset by 2 for the first 2 button.

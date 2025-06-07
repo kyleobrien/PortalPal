@@ -6,13 +6,13 @@ export class PortalMenu {
      * Creates a portal menu.
      * @constructor
      * @param delegate - A MenuManager instance that handles button selection.
-     * @param players - A Players instance that contains all player information.
+     * @param you - A Player instance that represents your player.
      * @param chosenPlayer - A player instance that the user has selected on the main menu.
      * @param savedData - A SavedData instance that contains the portals for the chosen player.
      */
-    constructor(delegate, players, chosenPlayer, savedData) {
+    constructor(delegate, you, chosenPlayer, savedData) {
         this.delegate = delegate;
-        this.players = players;
+        this.you = you;
         this.chosenPlayer = chosenPlayer;
         this.savedData = savedData;
     }
@@ -31,11 +31,11 @@ export class PortalMenu {
             form.button(portal.name, iconPath);
             buttonCount += 1;
         }
-        if (Utilities.arePlayersTheSame(this.players.you, this.chosenPlayer)) {
+        if (Utilities.arePlayersTheSame(this.you, this.chosenPlayer)) {
             form.button("Add Portal", "textures/icons/menu_plus");
             buttonCount += 1;
         }
-        form.show(this.players.you).then((response) => {
+        form.show(this.you).then((response) => {
             if (response.selection !== undefined) {
                 if (response.selection == 0) {
                     this.delegate.portalMenuTeleportToCurrentLocationOfPlayer(this.chosenPlayer);
@@ -43,7 +43,7 @@ export class PortalMenu {
                 else if (response.selection == 1) {
                     this.delegate.portalMenuTeleportToSpawnOfPlayer(this.chosenPlayer);
                 }
-                else if (Utilities.arePlayersTheSame(this.players.you, this.chosenPlayer) && (response.selection == buttonCount - 1)) {
+                else if (Utilities.arePlayersTheSame(this.you, this.chosenPlayer) && (response.selection == buttonCount - 1)) {
                     this.delegate.portalMenuAddNewPortal();
                 }
                 else {
