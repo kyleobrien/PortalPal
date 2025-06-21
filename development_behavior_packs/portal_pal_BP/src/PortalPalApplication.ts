@@ -7,7 +7,7 @@ import { Players } from './entities/Players';
 import { PortalMenuController, PortalMenuControllerDelegate } from './controllers/PortalMenuController';
 import { PortalPalPlayer } from './entities/PortalPalPlayer';
 import { PropertiesMenuController, PropertiesMenuControllerDelegate } from './controllers/PropertiesMenuController';
-import { FetchSavedDateError, Portal, PortalRepository, SavedData } from './repositories/PortalRepository';
+import { Portal, PortalRepository, SavedData } from './repositories/PortalRepository';
 import { TeleportService } from './services/TeleportService';
 
 export class PortalPalApplication implements MainMenuControllerDelegate, PortalMenuControllerDelegate, PropertiesMenuControllerDelegate, ActionMenuControllerDelegate, ConfirmDeleteMenuControllerDelegate {

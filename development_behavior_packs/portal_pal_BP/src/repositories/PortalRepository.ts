@@ -37,9 +37,15 @@ export class FetchSavedDateError extends Error {
 }
 
 export class PortalRepository {
+    /**
+     * Adds a new portal for a player.
+     * @param { Portal } portal The portal to add.
+     * @param { PortalPalPlayer } player The player to add it for.
+     * @returns { boolean } If adding the portal was successful (or not).
+     */
     public addPortal(portal: Portal, player: PortalPalPlayer): boolean {
-        this.slimPortal(portal);
-        portal.id = this.makeUniqueID();
+        PortalRepository.slimPortal(portal);
+        portal.id = PortalRepository.makeUniqueID();
         
         let savedData: SavedData;
         try {
@@ -53,8 +59,14 @@ export class PortalRepository {
         return this.writeSavedData(savedData, player);
     }
 
+    /**
+     * Edits the properties of an existing portal.
+     * @param { Portal } portal The portal to edit.
+     * @param { PortalPalPlayer } player The player who owns the portal.
+     * @returns { boolean } If the edit was successful (or not).
+     */
     public editPortal(portal: Portal, player: PortalPalPlayer): boolean {
-        let success = this.deletePortal(portal, player);
+        const success = this.deletePortal(portal, player);
         if (!success) {
             return false;
         }
@@ -62,6 +74,12 @@ export class PortalRepository {
         return this.addPortal(portal, player);
     }
 
+    /**
+     * Deletes the specified portal belonging to a player.
+     * @param { Portal } portal The portal to delete.
+     * @param { PortalPalPlayer } player The player who owns the portal.
+     * @returns { boolean } If the delete was successful (or not).
+     */
     public deletePortal(portal: Portal, player: PortalPalPlayer): boolean {
         let savedData: SavedData;
         try {
@@ -77,8 +95,14 @@ export class PortalRepository {
         return this.writeSavedData(savedData, player);
     }
 
+    /**
+     * Reads a player's saved data from Minecraft's key-value, property storage.
+     * @param { PortalPalPlayer } player The player whose portals to get.
+     * @param  { boolean } excludePrivate Flag to prevent returning a player's private portals.
+     * @returns { SavedData } An object containing the player's saved portals.
+     */
     public fetchSavedDataForPlayer(player: PortalPalPlayer, excludePrivate: boolean = false): SavedData {
-        let propertyName = this.makePropertyName(player);
+        const propertyName = PortalRepository.makePropertyName(player);
         let fetchedData: SavedData = { player: player.minecraftPlayer.name, portals: [] };
 
         try {
@@ -91,7 +115,7 @@ export class PortalRepository {
         }
 
         if (excludePrivate) {
-            let publicPortals = fetchedData.portals.filter((portal) => {
+            const publicPortals = fetchedData.portals.filter((portal) => {
                 return portal.private === false;
             });
 
@@ -101,33 +125,55 @@ export class PortalRepository {
         return fetchedData;
     }
 
+    /**
+     * Writes a player's saved data to Minecraft's key-value, property storage.
+     * @param { SavedDate } savedData The data to save.
+     * @param { PortalPalPlayer } forPlayer The player to save it for.
+     * @returns { boolean } If saving the data was successful (or not).
+     */
     private writeSavedData(savedData: SavedData, forPlayer: PortalPalPlayer): boolean {
         savedData.portals = savedData.portals.sort((a, b) => a.name.localeCompare(b.name));
 
         let success = false;
         try {
-            let propertyName = this.makePropertyName(forPlayer);
+            const propertyName = PortalRepository.makePropertyName(forPlayer);
             world.setDynamicProperty(propertyName, JSON.stringify(savedData));
+
             success = true;
         } catch (error) {
-            // Do nothing, success is already false;
+            // Do nothing, success is already false.
         }
         
         return success;
     }
 
-    private makePropertyName(player: PortalPalPlayer): string {
+    /**
+     * Generates a property name for a player used to store their portals.
+     * @param { PortalPalPlayer } player The player to generate the property name for.
+     * @returns { string } A property name.
+     */
+    private static makePropertyName(player: PortalPalPlayer): string {
         return `pp_${player.minecraftPlayer.id}`;
     }
 
-    private makeUniqueID(): string {
+    /**
+     * Generates a unique ID to identify a portal.
+     * This ID is not guarenteed to be unique across players.
+     * @returns { string } A unique (enough) ID.
+     */
+    private static makeUniqueID(): string {
         // This is a hack since I don't have access to GUIDs,
         // but I'm going with a good enough, straightforward solution.
         // These should be unique across a single player's portals, which is sufficient.
         return new Date().getTime().toString();
     }
 
-    private slimPortal(portal: Portal): void {
+    /**
+     * Takes a portal and reduces the precision of it's location to a whole number.
+     * Doing this makes the portal take up significantly less space in storage.
+     * @param { Portal } portal The portal to slim.
+     */
+    private static slimPortal(portal: Portal): void {
         portal.location.x = Math.floor(portal.location.x);
         portal.location.y = Math.floor(portal.location.y);
         portal.location.z = Math.floor(portal.location.z);
