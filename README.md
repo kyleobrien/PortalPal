@@ -25,7 +25,15 @@ To give yourself a PortalPal, type the following command in the chat window:
 
 TODO
 
-## Managing New Versions of PortalPal
+## Future Enhancements
+
+A short list of potential features for future versions of the add-on:
+
+-   When teleporting to another player, don't teleport directly on top of them. Find the nearest safe, open location that is at least a block or two away.
+-   Allow teleporting to portals belonging to players that are not in the game.
+-   Improve the playing of the teleportation sound effect so that it plays for everyone in the vicinity (outgoing and incoming).
+
+## Information for Developers / Contributors / Maintainers
 
 ### Minecraft Modules
 
@@ -40,7 +48,7 @@ When releasing a new version of PortalPal, bump the "header" -> "version" in the
 
 Follow [Semantic Versioning](https://semver.org/) rules.
 
-## Packaging
+### Packaging
 
 Minecraft Bedrock supports the .mcaddon format. This is just a zip file with a different extension. Follow the following instructions to make a new release:
 
@@ -50,7 +58,7 @@ Minecraft Bedrock supports the .mcaddon format. This is just a zip file with a d
 2.  Zip them up.
 3.  Rename the extension from .zip to .mcaddon.
 
-## Dependencies
+### Dependencies
 
 This project uses a handful of [Node.js](https://nodejs.org/en) packages for [TypeScript](https://www.typescriptlang.org/) support. To get them, run `npm install` after cloning the repository. Run `npm update` at any time to get the most recent versions.
 
