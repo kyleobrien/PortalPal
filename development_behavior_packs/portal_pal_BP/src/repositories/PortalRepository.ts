@@ -27,12 +27,27 @@ export interface SavedData {
     portals: Portal[];
 }
 
+export class FetchSavedDateError extends Error {
+    constructor(message: string) {
+        super(message);
+
+        this.name = 'FetchSavedDateError';
+        Object.setPrototypeOf(this, FetchSavedDateError.prototype);
+    }
+}
+
 export class PortalRepository {
     public addPortal(portal: Portal, player: PortalPalPlayer): boolean {
         this.slimPortal(portal);
         portal.id = this.makeUniqueID();
         
-        let savedData = this.fetchDataForPlayer(player);
+        let savedData: SavedData;
+        try {
+            savedData = this.fetchSavedDataForPlayer(player);
+        } catch {
+            return false;
+        }
+
         savedData.portals.push(portal);
 
         return this.writeSavedData(savedData, player);
@@ -48,7 +63,12 @@ export class PortalRepository {
     }
 
     public deletePortal(portal: Portal, player: PortalPalPlayer): boolean {
-        let savedData = this.fetchDataForPlayer(player);
+        let savedData: SavedData;
+        try {
+            savedData = this.fetchSavedDataForPlayer(player);
+        } catch {
+            return false;
+        }
         
         savedData.portals = savedData.portals.filter((p) => {
             return p.id !== portal.id;
@@ -57,7 +77,7 @@ export class PortalRepository {
         return this.writeSavedData(savedData, player);
     }
 
-    public fetchDataForPlayer(player: PortalPalPlayer, excludePrivate: boolean = false): SavedData {
+    public fetchSavedDataForPlayer(player: PortalPalPlayer, excludePrivate: boolean = false): SavedData {
         let propertyName = this.makePropertyName(player);
         let fetchedData: SavedData = { player: player.minecraftPlayer.name, portals: [] };
 
@@ -67,7 +87,7 @@ export class PortalRepository {
                 fetchedData = JSON.parse(readData.toString());
             }
         } catch {
-            // TODO: Better handling here. Throw a custom exception to catch and display to the current player.
+           throw new FetchSavedDateError(`Could not fetch saved data for player: ${player.minecraftPlayer.name}`);
         }
 
         if (excludePrivate) {
@@ -90,7 +110,7 @@ export class PortalRepository {
             world.setDynamicProperty(propertyName, JSON.stringify(savedData));
             success = true;
         } catch (error) {
-            // TODO: Better handling here. Throw a custom exception and catch in caller to display a message.
+            // Do nothing, success is already false;
         }
         
         return success;

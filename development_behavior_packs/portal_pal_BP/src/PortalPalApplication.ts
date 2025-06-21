@@ -7,7 +7,7 @@ import { Players } from './entities/Players';
 import { PortalMenuController, PortalMenuControllerDelegate } from './controllers/PortalMenuController';
 import { PortalPalPlayer } from './entities/PortalPalPlayer';
 import { PropertiesMenuController, PropertiesMenuControllerDelegate } from './controllers/PropertiesMenuController';
-import { Portal, PortalRepository, SavedData } from './repositories/PortalRepository';
+import { FetchSavedDateError, Portal, PortalRepository, SavedData } from './repositories/PortalRepository';
 import { TeleportService } from './services/TeleportService';
 
 export class PortalPalApplication implements MainMenuControllerDelegate, PortalMenuControllerDelegate, PropertiesMenuControllerDelegate, ActionMenuControllerDelegate, ConfirmDeleteMenuControllerDelegate {
@@ -47,7 +47,13 @@ export class PortalPalApplication implements MainMenuControllerDelegate, PortalM
     public mainMenuSelectedPlayer(selectedPlayer: PortalPalPlayer): void {
         const portalRepository = new PortalRepository();
         const excludePrivate = !selectedPlayer.isYou;
-        const savedData = portalRepository.fetchDataForPlayer(selectedPlayer, excludePrivate);
+        
+        let savedData: SavedData;
+        try {
+            savedData = portalRepository.fetchSavedDataForPlayer(selectedPlayer, excludePrivate);
+        } catch {
+            this.messageService.sendMessage("Could not load portals that are required to show the portal menu.", true);
+        }
         
         const portalMenuController = new PortalMenuController(this, this.players.you, selectedPlayer, savedData);
         const wasShown = portalMenuController.open();
