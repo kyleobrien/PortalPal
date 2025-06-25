@@ -1,6 +1,6 @@
-import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
-import { Players } from '../entities/Players';
-import { PortalPalPlayer } from '../entities/PortalPalPlayer';
+import { ActionFormData, type ActionFormResponse } from '@minecraft/server-ui';
+import type { Players } from '../entities/Players';
+import type { PortalPalPlayer } from '../entities/PortalPalPlayer';
 
 export interface MainMenuControllerDelegate {
     mainMenuSelectedPlayer(player: PortalPalPlayer): void;
@@ -38,7 +38,7 @@ export class MainMenuController {
         try {
             form.show(this.players.you.minecraftPlayer).then((response: ActionFormResponse) => {
                 if (response.selection !== undefined) {
-                    if (response.selection == 0) {
+                    if (response.selection === 0) {
                         this.delegate.mainMenuSelectedPlayer(this.players.you);
                     } else {
                         const index = response.selection - 1; // Offset by 1 for the "Your Portals" button.

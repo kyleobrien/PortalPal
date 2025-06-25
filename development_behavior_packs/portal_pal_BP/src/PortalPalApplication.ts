@@ -1,13 +1,13 @@
-import { Player, world } from '@minecraft/server';
-import { ActionMenuController, ActionMenuControllerDelegate } from './controllers/ActionMenuController';
-import { ConfirmDeleteMenuController, ConfirmDeleteMenuControllerDelegate } from './controllers/ConfirmDeleteMenuController';
-import { MainMenuController, MainMenuControllerDelegate } from './controllers/MainMenuController';
-import { MessageService } from './services/MessageService';
+import { type Player, world } from '@minecraft/server';
+import { ActionMenuController, type ActionMenuControllerDelegate } from './controllers/ActionMenuController';
+import { ConfirmDeleteMenuController, type ConfirmDeleteMenuControllerDelegate } from './controllers/ConfirmDeleteMenuController';
+import { MainMenuController, type MainMenuControllerDelegate } from './controllers/MainMenuController';
+import { PortalMenuController, type PortalMenuControllerDelegate } from './controllers/PortalMenuController';
+import { PropertiesMenuController, type PropertiesMenuControllerDelegate } from './controllers/PropertiesMenuController';
 import { Players } from './entities/Players';
-import { PortalMenuController, PortalMenuControllerDelegate } from './controllers/PortalMenuController';
-import { PortalPalPlayer } from './entities/PortalPalPlayer';
-import { PropertiesMenuController, PropertiesMenuControllerDelegate } from './controllers/PropertiesMenuController';
-import { Portal, PortalRepository, SavedData } from './repositories/PortalRepository';
+import type { PortalPalPlayer } from './entities/PortalPalPlayer';
+import { type Portal, PortalRepository, type SavedData } from './repositories/PortalRepository';
+import { MessageService } from './services/MessageService';
 import { TeleportService } from './services/TeleportService';
 
 export class PortalPalApplication implements MainMenuControllerDelegate, PortalMenuControllerDelegate, PropertiesMenuControllerDelegate, ActionMenuControllerDelegate, ConfirmDeleteMenuControllerDelegate {

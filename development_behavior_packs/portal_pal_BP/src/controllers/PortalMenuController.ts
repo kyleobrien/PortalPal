@@ -1,6 +1,6 @@
-import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
-import { Portal, PortalColor, SavedData } from '../repositories/PortalRepository';
-import { PortalPalPlayer } from '../entities/PortalPalPlayer';
+import { ActionFormData, type ActionFormResponse } from '@minecraft/server-ui';
+import type { PortalPalPlayer } from '../entities/PortalPalPlayer';
+import { type Portal, PortalColor, type SavedData } from '../repositories/PortalRepository';
 
 export interface PortalMenuControllerDelegate {
     portalMenuTeleportToCurrentLocationOfPlayer(player: PortalPalPlayer): void;
@@ -58,11 +58,11 @@ export class PortalMenuController {
         try {
             form.show(this.you.minecraftPlayer).then((response: ActionFormResponse) => {
                 if (response.selection !== undefined) {
-                    const isLastButton = response.selection == buttonCount - 1;
+                    const isLastButton = response.selection === buttonCount - 1;
 
-                    if (response.selection == 0) {
+                    if (response.selection === 0) {
                         this.delegate.portalMenuTeleportToCurrentLocationOfPlayer(this.player);
-                    } else if (response.selection == 1) {
+                    } else if (response.selection === 1) {
                         this.delegate.portalMenuTeleportToSpawnOfPlayer(this.player);
                     } else if (this.player.isYou && isLastButton) {
                         this.delegate.portalMenuAddNewPortal();

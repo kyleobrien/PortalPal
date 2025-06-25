@@ -1,4 +1,4 @@
-import { Player } from '@minecraft/server';
+import type { Player } from '@minecraft/server';
 import { PortalPalPlayer } from './PortalPalPlayer';
 
 export class Players {
@@ -13,7 +13,7 @@ export class Players {
     constructor (you: Player, allPlayers: Player[]) {
         this.portalPalPlayers.push(new PortalPalPlayer(you, true));
 
-        var otherPlayers = allPlayers.filter((p) => p.id != you.id)
+        var otherPlayers = allPlayers.filter((p) => p.id !== you.id)
                                      .sort((a, b) => a.name.localeCompare(b.name));
 
         for (const otherPlayer of otherPlayers) {

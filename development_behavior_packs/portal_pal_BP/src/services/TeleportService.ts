@@ -1,7 +1,7 @@
 import { world } from '@minecraft/server';
+import type { PortalPalPlayer } from '../entities/PortalPalPlayer';
+import type { Portal } from '../repositories/PortalRepository';
 import { MessageService } from './MessageService';
-import { Portal } from '../repositories/PortalRepository';
-import { PortalPalPlayer } from '../entities/PortalPalPlayer';
 
 export class TeleportService {
     private readonly fromPlayer: PortalPalPlayer;
@@ -92,7 +92,7 @@ export class TeleportService {
         const messageService = new MessageService(this.fromPlayer);
         
         try {
-            let teleportOptions = {
+            const teleportOptions = {
                 checkForBlocks: true,
                 dimension: world.getDimension(portal.dimension)
             };
@@ -116,7 +116,7 @@ export class TeleportService {
         const lastCharacter = name.charAt(name.length - 1);
 
         let posessiveName = name;
-        if (lastCharacter == "s") {
+        if (lastCharacter === "s") {
             posessiveName += "'";
         } else {
             posessiveName += "'s";

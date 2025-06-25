@@ -1,5 +1,5 @@
-import { world, Player } from '@minecraft/server';
-import { PortalPalPlayer } from 'entities/PortalPalPlayer';
+import { world } from '@minecraft/server';
+import type { PortalPalPlayer } from 'entities/PortalPalPlayer';
 
 export interface Portal {
     id: string;
@@ -106,7 +106,7 @@ export class PortalRepository {
         let fetchedData: SavedData = { player: player.minecraftPlayer.name, portals: [] };
 
         try {
-            let readData = world.getDynamicProperty(propertyName);
+            const readData = world.getDynamicProperty(propertyName);
             if (readData !== undefined) {
                 fetchedData = JSON.parse(readData.toString());
             }
@@ -140,7 +140,7 @@ export class PortalRepository {
             world.setDynamicProperty(propertyName, JSON.stringify(savedData));
 
             success = true;
-        } catch (error) {
+        } catch (_error) {
             // Do nothing, success is already false.
         }
         
@@ -165,7 +165,7 @@ export class PortalRepository {
         // This is a hack since I don't have access to GUIDs,
         // but I'm going with a good enough, straightforward solution.
         // These should be unique across a single player's portals, which is sufficient.
-        return new Date().getTime().toString();
+        return Date.now().toString();
     }
 
     /**

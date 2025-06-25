@@ -1,6 +1,6 @@
-import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
-import { Portal, PortalColor } from '../repositories/PortalRepository';
-import { PortalPalPlayer } from '../entities/PortalPalPlayer';
+import { ActionFormData, type ActionFormResponse } from '@minecraft/server-ui';
+import type { PortalPalPlayer } from '../entities/PortalPalPlayer';
+import { type Portal, PortalColor } from '../repositories/PortalRepository';
 
 export interface ActionMenuControllerDelegate {
     actionMenuGoToPortal(portal: Portal): void;
@@ -41,11 +41,11 @@ export class ActionMenuController {
         try {
             form.show(this.you.minecraftPlayer).then((response: ActionFormResponse) => {
                 if (response.selection !== undefined) {
-                    if (response.selection == 0) {
+                    if (response.selection === 0) {
                         this.delegate.actionMenuGoToPortal(this.portal);
-                    } else if (response.selection == 1) {
+                    } else if (response.selection === 1) {
                         this.delegate.actionMenuEditPortal(this.portal);
-                    } else if (response.selection == 2) {
+                    } else if (response.selection === 2) {
                         this.delegate.actionMenuDeletePortal(this.portal);
                     }
                 }

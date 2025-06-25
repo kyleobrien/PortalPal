@@ -12,5 +12,8 @@
   "dependencies": {
     "@minecraft/server": "^1.10.0",
     "@minecraft/server-ui": "^1.2.0-beta.1.21.0-preview.24"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.0.5"
   }
 }

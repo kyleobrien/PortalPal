@@ -1,6 +1,6 @@
-import { world, system } from '@minecraft/server';
-import { Portal, PortalColor } from '../repositories/PortalRepository';
-import { PortalPalPlayer } from '../entities/PortalPalPlayer';
+import { system, world } from '@minecraft/server';
+import type { PortalPalPlayer } from '../entities/PortalPalPlayer';
+import { type Portal, PortalColor } from '../repositories/PortalRepository';
 
 /**
  * This class uses the "Raw Message JSON" format.

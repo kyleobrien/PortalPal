@@ -1,10 +1,10 @@
-import { ModalFormData, ModalFormResponse } from '@minecraft/server-ui';
-import { Portal, PortalColor } from '../repositories/PortalRepository';
-import { PortalPalPlayer } from '../entities/PortalPalPlayer';
+import { ModalFormData, type ModalFormResponse } from '@minecraft/server-ui';
+import type { PortalPalPlayer } from '../entities/PortalPalPlayer';
+import { type Portal, PortalColor } from '../repositories/PortalRepository';
 
 export interface PropertiesMenuControllerDelegate {
-    propertiesMenuAddWithValues(formValues: any[]): void;
-    propertiesMenuEditWithValues(formValues: any[], existingPortal: Portal): void;
+    propertiesMenuAddWithValues(formValues: (string | number | boolean)[]): void;
+    propertiesMenuEditWithValues(formValues: (string | number | boolean)[], existingPortal: Portal): void;
 }
 
 export class PropertiesMenuController {
@@ -38,7 +38,7 @@ export class PropertiesMenuController {
         }
 
         // For numeric enums, keys also include the numbers, so we have to filter them out.
-        let colors = Object.keys(PortalColor).filter(key => isNaN(Number(key)));
+        let colors = Object.keys(PortalColor).filter(key => Number.isNaN(Number(key)));
         colors = colors.map(item =>
             String(item).charAt(0).toUpperCase() + String(item).slice(1)
         );
