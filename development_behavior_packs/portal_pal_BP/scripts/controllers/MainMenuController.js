@@ -25,7 +25,7 @@ export class MainMenuController {
         try {
             form.show(this.players.you.minecraftPlayer).then((response) => {
                 if (response.selection !== undefined) {
-                    if (response.selection == 0) {
+                    if (response.selection === 0) {
                         this.delegate.mainMenuSelectedPlayer(this.players.you);
                     }
                     else {

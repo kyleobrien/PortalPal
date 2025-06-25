@@ -1,5 +1,5 @@
-import { world, system } from '@minecraft/server';
-import { PortalColor } from '../repositories/PortalRepository';
+import { system, world } from '@minecraft/server';
+import { PortalColor } from '../enumerations/PortalColor';
 /**
  * This class uses the "Raw Message JSON" format.
  * https://learn.microsoft.com/en-us/minecraft/creator/reference/content/rawmessagejson?view=minecraft-bedrock-stable

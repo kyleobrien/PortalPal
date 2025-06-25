@@ -9,7 +9,7 @@ export class Players {
     constructor(you, allPlayers) {
         this.portalPalPlayers = [];
         this.portalPalPlayers.push(new PortalPalPlayer(you, true));
-        var otherPlayers = allPlayers.filter((p) => p.id != you.id)
+        var otherPlayers = allPlayers.filter((p) => p.id !== you.id)
             .sort((a, b) => a.name.localeCompare(b.name));
         for (const otherPlayer of otherPlayers) {
             this.portalPalPlayers.push(new PortalPalPlayer(otherPlayer, false));

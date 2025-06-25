@@ -1,14 +1,4 @@
 import { world } from '@minecraft/server';
-export var PortalColor;
-(function (PortalColor) {
-    PortalColor[PortalColor["purple"] = 0] = "purple";
-    PortalColor[PortalColor["magenta"] = 1] = "magenta";
-    PortalColor[PortalColor["red"] = 2] = "red";
-    PortalColor[PortalColor["yellow"] = 3] = "yellow";
-    PortalColor[PortalColor["green"] = 4] = "green";
-    PortalColor[PortalColor["turquoise"] = 5] = "turquoise";
-    PortalColor[PortalColor["blue"] = 6] = "blue";
-})(PortalColor || (PortalColor = {}));
 export class FetchSavedDateError extends Error {
     constructor(message) {
         super(message);
@@ -78,7 +68,7 @@ export class PortalRepository {
         const propertyName = PortalRepository.makePropertyName(player);
         let fetchedData = { player: player.minecraftPlayer.name, portals: [] };
         try {
-            let readData = world.getDynamicProperty(propertyName);
+            const readData = world.getDynamicProperty(propertyName);
             if (readData !== undefined) {
                 fetchedData = JSON.parse(readData.toString());
             }
@@ -108,7 +98,7 @@ export class PortalRepository {
             world.setDynamicProperty(propertyName, JSON.stringify(savedData));
             success = true;
         }
-        catch (error) {
+        catch (_error) {
             // Do nothing, success is already false.
         }
         return success;
@@ -130,7 +120,7 @@ export class PortalRepository {
         // This is a hack since I don't have access to GUIDs,
         // but I'm going with a good enough, straightforward solution.
         // These should be unique across a single player's portals, which is sufficient.
-        return new Date().getTime().toString();
+        return Date.now().toString();
     }
     /**
      * Takes a portal and reduces the precision of it's location to a whole number.

@@ -2,11 +2,11 @@ import { world } from '@minecraft/server';
 import { ActionMenuController } from './controllers/ActionMenuController';
 import { ConfirmDeleteMenuController } from './controllers/ConfirmDeleteMenuController';
 import { MainMenuController } from './controllers/MainMenuController';
-import { MessageService } from './services/MessageService';
-import { Players } from './entities/Players';
 import { PortalMenuController } from './controllers/PortalMenuController';
 import { PropertiesMenuController } from './controllers/PropertiesMenuController';
+import { Players } from './entities/Players';
 import { PortalRepository } from './repositories/PortalRepository';
+import { MessageService } from './services/MessageService';
 import { TeleportService } from './services/TeleportService';
 export class PortalPalApplication {
     constructor(you) {

@@ -1,5 +1,5 @@
 import { ModalFormData } from '@minecraft/server-ui';
-import { PortalColor } from '../repositories/PortalRepository';
+import { PortalColor } from '../enumerations/PortalColor';
 export class PropertiesMenuController {
     /**
      * Creates a properties menu.
@@ -25,7 +25,7 @@ export class PropertiesMenuController {
             title = "Edit Portal";
         }
         // For numeric enums, keys also include the numbers, so we have to filter them out.
-        let colors = Object.keys(PortalColor).filter(key => isNaN(Number(key)));
+        let colors = Object.keys(PortalColor).filter(key => Number.isNaN(Number(key)));
         colors = colors.map(item => String(item).charAt(0).toUpperCase() + String(item).slice(1));
         const form = new ModalFormData();
         form.title(title);

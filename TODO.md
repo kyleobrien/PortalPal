@@ -7,6 +7,5 @@
 
 ## Other
 
--   Lint the code.
 -   Add to the README:
     -   Take some screenshots.

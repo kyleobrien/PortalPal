@@ -1,5 +1,5 @@
 import { ActionFormData } from '@minecraft/server-ui';
-import { PortalColor } from '../repositories/PortalRepository';
+import { PortalColor } from '../enumerations/PortalColor';
 export class ActionMenuController {
     /**
      * Creates an action menu.
@@ -27,13 +27,13 @@ export class ActionMenuController {
         try {
             form.show(this.you.minecraftPlayer).then((response) => {
                 if (response.selection !== undefined) {
-                    if (response.selection == 0) {
+                    if (response.selection === 0) {
                         this.delegate.actionMenuGoToPortal(this.portal);
                     }
-                    else if (response.selection == 1) {
+                    else if (response.selection === 1) {
                         this.delegate.actionMenuEditPortal(this.portal);
                     }
-                    else if (response.selection == 2) {
+                    else if (response.selection === 2) {
                         this.delegate.actionMenuDeletePortal(this.portal);
                     }
                 }

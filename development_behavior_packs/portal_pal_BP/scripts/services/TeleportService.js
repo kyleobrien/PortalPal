@@ -84,7 +84,7 @@ export class TeleportService {
     teleportToPortal(portal) {
         const messageService = new MessageService(this.fromPlayer);
         try {
-            let teleportOptions = {
+            const teleportOptions = {
                 checkForBlocks: true,
                 dimension: world.getDimension(portal.dimension)
             };
@@ -107,7 +107,7 @@ export class TeleportService {
     static makePossessiveName(name) {
         const lastCharacter = name.charAt(name.length - 1);
         let posessiveName = name;
-        if (lastCharacter == "s") {
+        if (lastCharacter === "s") {
             posessiveName += "'";
         }
         else {

@@ -1,5 +1,5 @@
 import { ActionFormData } from '@minecraft/server-ui';
-import { PortalColor } from '../repositories/PortalRepository';
+import { PortalColor } from '../enumerations/PortalColor';
 export class PortalMenuController {
     /**
      * Creates a portal menu.
@@ -39,11 +39,11 @@ export class PortalMenuController {
         try {
             form.show(this.you.minecraftPlayer).then((response) => {
                 if (response.selection !== undefined) {
-                    const isLastButton = response.selection == buttonCount - 1;
-                    if (response.selection == 0) {
+                    const isLastButton = response.selection === buttonCount - 1;
+                    if (response.selection === 0) {
                         this.delegate.portalMenuTeleportToCurrentLocationOfPlayer(this.player);
                     }
-                    else if (response.selection == 1) {
+                    else if (response.selection === 1) {
                         this.delegate.portalMenuTeleportToSpawnOfPlayer(this.player);
                     }
                     else if (this.player.isYou && isLastButton) {

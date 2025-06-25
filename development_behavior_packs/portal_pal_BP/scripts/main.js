@@ -2,7 +2,7 @@ import { world } from '@minecraft/server';
 import { PortalPalApplication } from './PortalPalApplication';
 world.afterEvents.itemUse.subscribe(event => {
     if (event.itemStack.typeId === "pp:portal_pal") {
-        let portalPalApplication = new PortalPalApplication(event.source);
+        const portalPalApplication = new PortalPalApplication(event.source);
         portalPalApplication.initialize();
     }
 });
