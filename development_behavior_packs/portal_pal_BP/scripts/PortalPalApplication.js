@@ -38,7 +38,13 @@ export class PortalPalApplication {
     mainMenuSelectedPlayer(selectedPlayer) {
         const portalRepository = new PortalRepository();
         const excludePrivate = !selectedPlayer.isYou;
-        const savedData = portalRepository.fetchDataForPlayer(selectedPlayer, excludePrivate);
+        let savedData;
+        try {
+            savedData = portalRepository.fetchSavedDataForPlayer(selectedPlayer, excludePrivate);
+        }
+        catch {
+            this.messageService.sendMessage("Could not load portals that are required to show the portal menu.", true);
+        }
         const portalMenuController = new PortalMenuController(this, this.players.you, selectedPlayer, savedData);
         const wasShown = portalMenuController.open();
         if (!wasShown) {
