@@ -1,6 +1,6 @@
 import { world } from '@minecraft/server';
 import type { PortalPalPlayer } from '../entities/PortalPalPlayer';
-import type { Portal } from '../repositories/PortalRepository';
+import type { Portal } from '../value_objects/Portal';
 import { MessageService } from './MessageService';
 
 export class TeleportService {

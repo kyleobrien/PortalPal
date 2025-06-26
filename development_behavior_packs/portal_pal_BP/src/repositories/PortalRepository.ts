@@ -1,21 +1,7 @@
 import { world } from '@minecraft/server';
 import type { PortalPalPlayer } from 'entities/PortalPalPlayer';
-
-export interface Portal {
-    id: string;
-    name: string;
-    color: number;
-    private: boolean;
-    location: { x: number;
-                y: number;
-                z: number; }
-    dimension: string;
-}
-
-export interface SavedData {
-    player: string;
-    portals: Portal[];
-}
+import type { Portal } from '../value_objects/Portal';
+import type { SavedData } from '../value_objects/SavedData';
 
 export class FetchSavedDateError extends Error {
     constructor(message: string) {

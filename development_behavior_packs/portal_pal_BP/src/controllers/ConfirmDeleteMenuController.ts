@@ -1,6 +1,6 @@
 import { MessageFormData, type MessageFormResponse } from '@minecraft/server-ui';
 import type { PortalPalPlayer } from '../entities/PortalPalPlayer';
-import type { Portal } from '../repositories/PortalRepository';
+import type { Portal } from '../value_objects/Portal';
 
 export interface ConfirmDeleteMenuControllerDelegate {
     confirmMenuDeletePortal(portal: Portal): void;

@@ -1,7 +1,7 @@
 import { ModalFormData, type ModalFormResponse } from '@minecraft/server-ui';
 import type { PortalPalPlayer } from '../entities/PortalPalPlayer';
 import { PortalColor } from '../enumerations/PortalColor';
-import type { Portal } from '../repositories/PortalRepository';
+import type { Portal } from '../value_objects/Portal';
 
 export interface PropertiesMenuControllerDelegate {
     propertiesMenuAddWithValues(formValues: (string | number | boolean)[]): void;

@@ -6,9 +6,11 @@ import { PortalMenuController, type PortalMenuControllerDelegate } from './contr
 import { PropertiesMenuController, type PropertiesMenuControllerDelegate } from './controllers/PropertiesMenuController';
 import { Players } from './entities/Players';
 import type { PortalPalPlayer } from './entities/PortalPalPlayer';
-import { type Portal, PortalRepository, type SavedData } from './repositories/PortalRepository';
+import { PortalRepository } from './repositories/PortalRepository';
 import { MessageService } from './services/MessageService';
 import { TeleportService } from './services/TeleportService';
+import type { Portal } from './value_objects/Portal';
+import type { SavedData } from './value_objects/SavedData';
 
 export class PortalPalApplication implements MainMenuControllerDelegate, PortalMenuControllerDelegate, PropertiesMenuControllerDelegate, ActionMenuControllerDelegate, ConfirmDeleteMenuControllerDelegate {
     private readonly players: Players;

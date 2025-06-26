@@ -1,11 +1,7 @@
 # TODO
 
-## Refactoring
+## Remaining
 
--   Consider getting list of Portals into PortalPalPlayer class.
+-   Move value objects into their own folder/files.
 -   Clean up js files that are no longer used.
-
-## Other
-
--   Add to the README:
-    -   Take some screenshots.
+-   Add screenshots.

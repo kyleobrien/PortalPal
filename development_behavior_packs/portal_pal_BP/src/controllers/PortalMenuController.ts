@@ -1,7 +1,8 @@
 import { ActionFormData, type ActionFormResponse } from '@minecraft/server-ui';
+import type { Portal } from 'value_objects/Portal';
 import type { PortalPalPlayer } from '../entities/PortalPalPlayer';
 import { PortalColor } from '../enumerations/PortalColor';
-import type { Portal, SavedData } from '../repositories/PortalRepository';
+import type { SavedData } from '../value_objects/SavedData';
 
 export interface PortalMenuControllerDelegate {
     portalMenuTeleportToCurrentLocationOfPlayer(player: PortalPalPlayer): void;
