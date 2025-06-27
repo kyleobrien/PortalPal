@@ -1,5 +1,7 @@
 # PortalPal
 
+![PortalPal icon.](./readme/images/icon.png)
+
 A Minecraft Bedrock add-on for teleportation.
 
 PortalPal allows a user of the device to do the following:
@@ -13,7 +15,15 @@ PortalPal allows a user of the device to do the following:
 
 ### Crafting
 
-TODO
+To craft a PortalPal, you need the following 3 items:
+
+1. A glass pane
+2. Redstone
+3. An iron ingot
+
+Arrange them in the following pattern:
+
+![A glass pane, redstone, and an iron ingot in a single column.](./readme/images/crafting.png)
 
 ### Creative Mode
 
@@ -23,7 +33,9 @@ To give yourself a PortalPal, type the following command in the chat window:
 
 ## Screenshots
 
-TODO
+![Available Portals menu.](./readme/images/available_portals.png)
+
+![After teleporting to the Lava Lake portal.](./readme/images/teleport_message.png)
 
 ## Future Enhancements
 
