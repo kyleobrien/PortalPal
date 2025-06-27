@@ -1,5 +1,0 @@
-# TODO
-
-## Remaining
-
--   Add screenshots.
